@@ -33,8 +33,8 @@ const SKILL_GALLERY_ROWS = [
 ] as const;
 
 const GALLERY_SCROLL_FRAMES = {
-  left: ["0%", "-50%"],
-  right: ["-50%", "0%"],
+  left: [-600, 0],
+  right: [0, 600],
 } as const;
 
 const GALLERY_SCROLL_DURATION = 45;
