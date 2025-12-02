@@ -32,10 +32,10 @@ const SKILL_GALLERY_ROWS = [
   },
 ] as const;
 
-const GALLERY_SCROLL_FRAMES = {
+const GALLERY_SCROLL_FRAMES: Record<"left" | "right", number[]> = {
   left: [-600, 0],
   right: [0, 600],
-} as const;
+};
 
 const GALLERY_SCROLL_DURATION = 45;
 
