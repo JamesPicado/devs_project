@@ -181,6 +181,8 @@ export default function HomePage() {
   const [themeMode, setThemeMode] = useState<"dark" | "light">("dark");
   const [themeReady, setThemeReady] = useState(false);
   const [galleryModal, setGalleryModal] = useState<{ src: string; alt: string } | null>(null);
+  const [contactForm, setContactForm] = useState({ name: "", email: "", message: "" });
+  const [contactStatus, setContactStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const navRef = useRef<HTMLDivElement | null>(null);
   const experienceRef = useRef<HTMLElement | null>(null);
   const heroRef = useRef<HTMLElement | null>(null);
@@ -194,6 +196,29 @@ export default function HomePage() {
       x: 0,
       transition: { duration: 0.28, ease: [0.25, 0.1, 0.25, 1] },
     },
+  };
+
+  const updateContactForm = (field: string, value: string) => {
+    setContactForm((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const submitContactForm = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (contactStatus === "sending") return;
+    setContactStatus("sending");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(contactForm),
+      });
+      if (!res.ok) throw new Error("Request failed");
+      setContactStatus("success");
+      setContactForm({ name: "", email: "", message: "" });
+    } catch (err) {
+      console.error(err);
+      setContactStatus("error");
+    }
   };
 
   useEffect(() => {
@@ -714,6 +739,71 @@ export default function HomePage() {
           </motion.div>
         </div>
       </section>
+
+      {/* CONTACT SECTION */}
+      <section id="contact" className="relative z-10 w-full bg-[var(--background)] text-[var(--foreground)] px-4 sm:px-6 py-24">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-10">
+            <p className="text-xs uppercase tracking-[0.5em] text-[var(--foreground)]/60">Contacto</p>
+            <h2 className="text-4xl font-extrabold mt-3">Trabajemos juntos</h2>
+            <p className="text-sm text-[var(--foreground)]/70 mt-3">
+              Completa el formulario. Responderé lo antes posible.
+            </p>
+          </div>
+
+          <form onSubmit={submitContactForm} className="space-y-6 bg-[rgba(var(--background-rgb),0.4)] border border-white/10 rounded-[36px] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
+            <label className="block text-sm font-semibold uppercase tracking-[0.3em] text-[var(--foreground)]/70">
+              Nombre
+              <input
+                type="text"
+                required
+                value={contactForm.name}
+                onChange={(e) => updateContactForm("name", e.target.value)}
+                className="mt-2 w-full rounded-2xl border border-white/10 bg-[rgba(var(--background-rgb),0.35)] px-4 py-3 text-base text-[var(--foreground)] placeholder:text-[var(--foreground)]/40 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Cual es tu nombre?"
+              />
+            </label>
+
+            <label className="block text-sm font-semibold uppercase tracking-[0.3em] text-[var(--foreground)]/70">
+              Email
+              <input
+                type="email"
+                required
+                value={contactForm.email}
+                onChange={(e) => updateContactForm("email", e.target.value)}
+                className="mt-2 w-full rounded-2xl border border-white/10 bg-[rgba(var(--background-rgb),0.35)] px-4 py-3 text-base text-[var(--foreground)] placeholder:text-[var(--foreground)]/40 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="email@email.com"
+              />
+            </label>
+
+            <label className="block text-sm font-semibold uppercase tracking-[0.3em] text-[var(--foreground)]/70">
+              Mensaje
+              <textarea
+                required
+                rows={5}
+                value={contactForm.message}
+                onChange={(e) => updateContactForm("message", e.target.value)}
+                className="mt-2 w-full rounded-2xl border border-white/10 bg-[rgba(var(--background-rgb),0.35)] px-4 py-3 text-base text-[var(--foreground)] placeholder:text-[var(--foreground)]/40 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                placeholder="Cuéntame sobre tu proyecto..."
+              />
+            </label>
+
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <button
+                type="submit"
+                disabled={contactStatus === "sending"}
+                className="rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:bg-blue-400"
+              >
+                {contactStatus === "sending" ? "Enviando..." : "Enviar"}
+              </button>
+
+              {contactStatus === "success" && <p className="text-sm text-emerald-400">Mensaje enviado correctamente.</p>}
+              {contactStatus === "error" && <p className="text-sm text-red-400">Ocurrió un error. Intenta nuevamente.</p>}
+            </div>
+          </form>
+        </div>
+      </section>
+
       {galleryModal ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-6">
           <button className="absolute inset-0 cursor-default" onClick={() => setGalleryModal(null)} aria-label="Cerrar galería" />
