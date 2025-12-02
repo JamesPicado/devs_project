@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence, useInView } from "framer-motion";
+import { motion, AnimatePresence, useInView, type Variants } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 const SKILL_GALLERY_ROWS = [
   {
@@ -187,13 +187,13 @@ export default function HomePage() {
 
   const heroInView = useInView(heroRef, { amount: 0.75 });
   const [textCycle, setTextCycle] = useState(0);
-  const letterVariants = {
+  const letterVariants: Variants = {
     hidden: { opacity: 0, x: -12 },
-    visible: (i: number) => ({
+    visible: {
       opacity: 0.95,
       x: 0,
-      transition: { delay: i * 0.035, duration: 0.28, ease: "easeOut" },
-    }),
+      transition: { duration: 0.28, ease: [0.25, 0.1, 0.25, 1] },
+    },
   };
 
   useEffect(() => {
@@ -438,7 +438,7 @@ export default function HomePage() {
                 return (
                   <motion.span
                     key={`${segmentIdx}-${charIdx}-${textCycle}`}
-                    custom={index}
+                    transition={{ delay: index * 0.035 }}
                     variants={letterVariants}
                     initial="hidden"
                     animate="visible"
