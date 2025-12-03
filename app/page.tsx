@@ -2,6 +2,10 @@
 
 import { motion, AnimatePresence, useInView, type Variants } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
+/**
+ * Galería de fotografías: controla qué imágenes se muestran en cada fila y en qué dirección se desplazan.
+ * Se usan después en la sección Skills con animaciones de Framer Motion.
+ */
 const SKILL_GALLERY_ROWS = [
   {
     direction: "left",
@@ -39,6 +43,9 @@ const GALLERY_SCROLL_FRAMES: Record<"left" | "right", number[]> = {
 
 const GALLERY_SCROLL_DURATION = 45;
 
+/**
+ * Lista de proyectos destacados que se renderizan en la sección Projects.
+ */
 const PROJECTS = [
   {
     title: "Temco Engineered Products, Inc.",
@@ -59,7 +66,7 @@ const PROJECTS = [
   {
     title: "Restaurante Costa Rica",
     role: "Full-Stack Engineer · Atlantbh",
-    image: "/img_projects/temcousa.png",
+    image: "/img_projects/analytics-control-room.png",
     imageAlt: "Analytics dashboard mockup with charts and KPIs",
     description:
       "Diseñé una web moderna para un restaurante, con enfoque en elegancia y usabilidad. Incluye menú digital interactivo, sistema de reservas, galería de platillos, sección del chef y reseñas dinámicas de clientes.",
@@ -111,6 +118,9 @@ const PROJECT_CARD_VARIANTS = {
   },
 } as const;
 
+/**
+ * Experiencia / servicios que se muestran como tarjetas animadas.
+ */
 const EXPERIENCES = [
   {
     title: "Diseño Web / UI–UX",
@@ -187,8 +197,12 @@ export default function HomePage() {
   const experienceRef = useRef<HTMLElement | null>(null);
   const heroRef = useRef<HTMLElement | null>(null);
 
+  // Observa la sección hero para disparar animaciones de texto
   const heroInView = useInView(heroRef, { amount: 0.75 });
   const [textCycle, setTextCycle] = useState(0);
+  /**
+   * Animación para las letras del hero principal.
+   */
   const letterVariants: Variants = {
     hidden: { opacity: 0, x: -12 },
     visible: {
@@ -198,10 +212,12 @@ export default function HomePage() {
     },
   };
 
+  // Actualiza el estado del formulario de contacto campo por campo
   const updateContactForm = (field: string, value: string) => {
     setContactForm((prev) => ({ ...prev, [field]: value }));
   };
 
+  // Envía los datos del formulario al endpoint /api/contact
   const submitContactForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (contactStatus === "sending") return;
@@ -311,7 +327,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* NAVBAR */}
+      {/* NAVBAR: menú principal + toggles */}
       <div
         className="w-full flex justify-center mt-0 mb-4 sticky top-0 z-20 bg-[rgba(var(--background-rgb),0.85)] backdrop-blur-md"
         ref={navRef}
@@ -444,7 +460,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* HERO TEXT */}
+      {/* HERO SECTION: animación del titular principal con texto tecleado */}
       <section
         id="home"
         ref={heroRef}
@@ -516,7 +532,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* EXPERIENCE SECTION */}
+      {/* EXPERIENCE SECTION: tarjetas de experiencia/servicios */}
       <section
         id="experience"
         ref={experienceRef}
@@ -619,7 +635,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* SKILLS SECTION */}
+      {/* SKILLS SECTION: galería fotográfica animada */}
       <section id="skills" className="relative z-10 w-full min-h-screen bg-[var(--background)] text-[var(--foreground)] px-0 py-24 overflow-hidden">
         <div className="space-y-12">
           <div className="text-center space-y-4 px-4 sm:px-6">
@@ -664,7 +680,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* PROJECTS SECTION */}
+      {/* PROJECTS SECTION: grid de trabajos destacados */}
       <section id="projects" className="relative z-10 w-full bg-[var(--background)] text-[var(--foreground)] px-4 py-24 sm:px-6 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute inset-x-0 top-24 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
@@ -740,7 +756,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CONTACT SECTION */}
+      {/* CONTACT SECTION: formulario que envía correos a Gmail */}
       <section id="contact" className="relative z-10 w-full bg-[var(--background)] text-[var(--foreground)] px-4 sm:px-6 py-24">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-10">

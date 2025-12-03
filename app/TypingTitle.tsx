@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 
 export default function TypingTitle() {
+  // Cadena final con sus clases para aplicar colores/estilos (hero typing effect).
   const fullText = [
     { text: "Java and React/Next.js ", className: "text-white" },
     { text: "developer", className: "text-blue-500" },
@@ -10,6 +11,7 @@ export default function TypingTitle() {
 
   const [display, setDisplay] = useState("");
 
+  // Efecto de tipeo: recorre toda la cadena y la va mostrando con velocidad variable.
   useEffect(() => {
     const combined = fullText.map((t) => t.text).join("");
     let index = 0;
@@ -30,6 +32,7 @@ export default function TypingTitle() {
     requestAnimationFrame(type);
   }, []);
 
+  // Fragmenta el texto que se está mostrando en segmentos con estilos correspondientes.
   const renderStyledText = () => {
     let remaining = display;
     const parts = [];
