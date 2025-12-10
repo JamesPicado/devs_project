@@ -132,7 +132,7 @@ const EXPERIENCES = [
     ],
     badge: "Custom Solutions",
     accent: "from-sky-500/45 via-blue-500/10 to-transparent",
-    icon: "/icons/diseno_web.png",
+    icon: "/icons/web_design.png",
   },
   {
     title: "Web Systems and Applications",
@@ -144,7 +144,7 @@ const EXPERIENCES = [
     ],
     badge: "Platforms",
     accent: "from-emerald-500/45 via-lime-400/15 to-transparent",
-    icon: "/icons/sistemas_aplicaciones.png",
+    icon: "/icons/web_systems.png",
   },
   {
     title: "Visual Content / Photography / Multimedia",
@@ -156,7 +156,7 @@ const EXPERIENCES = [
     ],
     badge: "Branding",
     accent: "from-fuchsia-500/40 via-pink-500/15 to-transparent",
-    icon: "/icons/contenido_visual.png",
+    icon: "/icons/visual_content.png",
   },
   {
     title: "Monthly Web Maintenance and Support",
@@ -167,7 +167,7 @@ const EXPERIENCES = [
     ],
     badge: "Continuity",
     accent: "from-indigo-500/40 via-purple-500/20 to-transparent",
-    icon: "/icons/soporte_mantenimiento.png",
+    icon: "/icons/maintenance_support.png",
   },
 ] as const;
 
