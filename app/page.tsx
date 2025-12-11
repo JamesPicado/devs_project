@@ -19,6 +19,62 @@ const GALLERY_SCROLL_FRAMES: Record<"left" | "right", number[]> = {
   right: [0, 600],
 };
 
+/**
+ * Fallback list of countries with dial code and flag. Used until the REST API responde.
+ */
+type CountryOption = { code: string; name: string; dial: string; flag: string };
+
+const DEFAULT_COUNTRIES: readonly CountryOption[] = [
+  { code: "CR", name: "Costa Rica", dial: "+506", flag: "🇨🇷" },
+  { code: "US", name: "Estados Unidos", dial: "+1", flag: "🇺🇸" },
+  { code: "MX", name: "México", dial: "+52", flag: "🇲🇽" },
+  { code: "PA", name: "Panamá", dial: "+507", flag: "🇵🇦" },
+  { code: "CO", name: "Colombia", dial: "+57", flag: "🇨🇴" },
+] as const;
+
+/**
+ * Country list for phone selector (flag + dial code).
+ */
+const COUNTRY_OPTIONS = [
+  { code: "CR", name: "Costa Rica", dial: "+506", flag: "🇨🇷" },
+  { code: "US", name: "Estados Unidos", dial: "+1", flag: "🇺🇸" },
+  { code: "CA", name: "Canadá", dial: "+1", flag: "🇨🇦" },
+  { code: "MX", name: "México", dial: "+52", flag: "🇲🇽" },
+  { code: "PA", name: "Panamá", dial: "+507", flag: "🇵🇦" },
+  { code: "CO", name: "Colombia", dial: "+57", flag: "🇨🇴" },
+  { code: "AR", name: "Argentina", dial: "+54", flag: "🇦🇷" },
+  { code: "CL", name: "Chile", dial: "+56", flag: "🇨🇱" },
+  { code: "PE", name: "Perú", dial: "+51", flag: "🇵🇪" },
+  { code: "ES", name: "España", dial: "+34", flag: "🇪🇸" },
+  { code: "FR", name: "Francia", dial: "+33", flag: "🇫🇷" },
+  { code: "DE", name: "Alemania", dial: "+49", flag: "🇩🇪" },
+  { code: "IT", name: "Italia", dial: "+39", flag: "🇮🇹" },
+  { code: "GB", name: "Reino Unido", dial: "+44", flag: "🇬🇧" },
+  { code: "BR", name: "Brasil", dial: "+55", flag: "🇧🇷" },
+  { code: "UY", name: "Uruguay", dial: "+598", flag: "🇺🇾" },
+  { code: "PY", name: "Paraguay", dial: "+595", flag: "🇵🇾" },
+  { code: "VE", name: "Venezuela", dial: "+58", flag: "🇻🇪" },
+  { code: "DO", name: "República Dominicana", dial: "+1", flag: "🇩🇴" },
+  { code: "GT", name: "Guatemala", dial: "+502", flag: "🇬🇹" },
+  { code: "HN", name: "Honduras", dial: "+504", flag: "🇭🇳" },
+  { code: "SV", name: "El Salvador", dial: "+503", flag: "🇸🇻" },
+  { code: "NI", name: "Nicaragua", dial: "+505", flag: "🇳🇮" },
+  { code: "PR", name: "Puerto Rico", dial: "+1", flag: "🇵🇷" },
+  { code: "BO", name: "Bolivia", dial: "+591", flag: "🇧🇴" },
+  { code: "EC", name: "Ecuador", dial: "+593", flag: "🇪🇨" },
+  { code: "AU", name: "Australia", dial: "+61", flag: "🇦🇺" },
+  { code: "NZ", name: "Nueva Zelanda", dial: "+64", flag: "🇳🇿" },
+  { code: "JP", name: "Japón", dial: "+81", flag: "🇯🇵" },
+  { code: "KR", name: "Corea del Sur", dial: "+82", flag: "🇰🇷" },
+  { code: "IN", name: "India", dial: "+91", flag: "🇮🇳" },
+  { code: "ZA", name: "Sudáfrica", dial: "+27", flag: "🇿🇦" },
+  { code: "NG", name: "Nigeria", dial: "+234", flag: "🇳🇬" },
+  { code: "EG", name: "Egipto", dial: "+20", flag: "🇪🇬" },
+  { code: "SA", name: "Arabia Saudita", dial: "+966", flag: "🇸🇦" },
+  { code: "AE", name: "Emiratos Árabes Unidos", dial: "+971", flag: "🇦🇪" },
+  { code: "TR", name: "Turquía", dial: "+90", flag: "🇹🇷" },
+] as const;
+
 const GALLERY_SCROLL_DURATION = 45;
 
 /**
@@ -169,7 +225,8 @@ export default function HomePage() {
   const [themeMode, setThemeMode] = useState<"dark" | "light">("dark");
   const [themeReady, setThemeReady] = useState(false);
   const [galleryModal, setGalleryModal] = useState<{ src: string; alt: string } | null>(null);
-  const [contactForm, setContactForm] = useState({ name: "", email: "", message: "" });
+  const [contactForm, setContactForm] = useState({ name: "", email: "", country: "CR", phone: "", message: "" });
+  const [countryOptions, setCountryOptions] = useState(Array.from(DEFAULT_COUNTRIES));
   const [contactStatus, setContactStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const navRef = useRef<HTMLDivElement | null>(null);
   const experienceRef = useRef<HTMLElement | null>(null);
@@ -196,25 +253,68 @@ export default function HomePage() {
     setContactForm((prev) => ({ ...prev, [field]: value }));
   };
 
+  useEffect(() => {
+    let isMounted = true;
+    const loadCountries = async () => {
+      try {
+        const res = await fetch("https://restcountries.com/v3.1/all?fields=name,cca2,idd,flag");
+        const data = await res.json();
+        const mapped: CountryOption[] = data
+          .map((country: any) => {
+            const dialRoot = country?.idd?.root ?? "";
+            const suffix = country?.idd?.suffixes?.[0] ?? "";
+            const dial = `${dialRoot}${suffix}`;
+            if (!dial) return null;
+            return {
+              code: country?.cca2 ?? "",
+              name: country?.name?.common ?? country?.cca2 ?? "",
+              dial,
+              flag: country?.flag ?? "",
+            } as CountryOption;
+          })
+          .filter(Boolean)
+          .sort((a: CountryOption, b: CountryOption) => a.name.localeCompare(b.name, "es"));
+
+        if (isMounted && mapped.length) {
+          setCountryOptions(mapped);
+        }
+      } catch (error) {
+        console.warn("Country fetch failed", error);
+      }
+    };
+
+    loadCountries();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   // Sends form data to /api/contact endpoint
   const submitContactForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (contactStatus === "sending") return;
     setContactStatus("sending");
+    const countryInfo = countryOptions.find((country) => country.code === contactForm.country);
+    const payload = {
+      ...contactForm,
+      country: countryInfo ? `${countryInfo.flag} ${countryInfo.name} (${countryInfo.dial})` : contactForm.country,
+    };
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(contactForm),
+        body: JSON.stringify(payload),
       });
       if (!res.ok) throw new Error("Request failed");
       setContactStatus("success");
-      setContactForm({ name: "", email: "", message: "" });
+      setContactForm({ name: "", email: "", country: "CR", phone: "", message: "" });
     } catch (err) {
       console.error(err);
       setContactStatus("error");
     }
   };
+
+  const selectedCountry = countryOptions.find((country) => country.code === contactForm.country);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -835,6 +935,34 @@ export default function HomePage() {
                 className="mt-2 w-full rounded-2xl border border-white/10 bg-[rgba(var(--background-rgb),0.35)] px-4 py-3 text-base text-[var(--foreground)] placeholder:text-[var(--foreground)]/40 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="email@email.com"
               />
+            </label>
+
+            <label className="block text-sm font-semibold uppercase tracking-[0.3em] text-[var(--foreground)]/70">
+              Phone
+              <div className="mt-2 flex gap-2">
+                <div className="relative w-[120px]">
+                  <select
+                    value={contactForm.country}
+                    onChange={(e) => updateContactForm("country", e.target.value)}
+                    className="w-full appearance-none rounded-2xl border border-white/10 bg-[rgba(var(--background-rgb),0.35)] pr-10 pl-4 py-3 text-base text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="">Select country</option>
+                    {countryOptions.map((country) => (
+                      <option key={country.code} value={country.code}>
+                        {country.flag} {country.code} ({country.dial})
+                      </option>
+                    ))}
+                  </select>
+                  <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-[var(--foreground)]/60">▾</span>
+                </div>
+                <input
+                  type="tel"
+                  value={contactForm.phone}
+                  onChange={(e) => updateContactForm("phone", e.target.value)}
+                  className="flex-1 rounded-2xl border border-white/10 bg-[rgba(var(--background-rgb),0.35)] px-4 py-3 text-base text-[var(--foreground)] placeholder:text-[var(--foreground)]/40 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder={selectedCountry ? `${selectedCountry.dial} 0000-0000` : "+000 0000-0000"}
+                />
+              </div>
             </label>
 
             <label className="block text-sm font-semibold uppercase tracking-[0.3em] text-[var(--foreground)]/70">
