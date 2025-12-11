@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport({
 });
 
 export async function POST(request: Request) {
-  const { name, email, message } = await request.json();
+  const { name, email, phone, country, message } = await request.json();
 
   if (!name || !email || !message) {
     return NextResponse.json({ error: "Invalid data" }, { status: 400 });
@@ -21,7 +21,7 @@ export async function POST(request: Request) {
       from: `Portfolio Contact <${process.env.GMAIL_USER}>`,
       to: process.env.RECEIVER_EMAIL ?? process.env.GMAIL_USER,
       subject: `New message from ${name}`,
-      text: `Sender: ${name} (${email})
+      text: `Sender: ${name} (${email}${phone ? ` | ${phone}` : ""}${country ? ` | Country: ${country}` : ""})
 
 ${message}`,
     });
