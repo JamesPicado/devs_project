@@ -83,7 +83,7 @@ export default function Projects() {
         <div className="absolute right-12 bottom-16 h-72 w-72 rounded-full bg-purple-500/10 blur-[160px]" />
       </div>
 
-      <div className="relative max-w-5xl mx-auto text-center space-y-4">
+      <div className="relative max-w-5xl mx-auto text-center space-y-4 pt-12">
         <p className="text-xs uppercase tracking-[0.55em] text-[var(--foreground)]/60">Selected Work</p>
         <h2 className="text-4xl font-extrabold">Projects</h2>
         <p className="text-[var(--foreground)]/70 text-sm leading-relaxed">

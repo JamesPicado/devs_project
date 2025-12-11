@@ -78,6 +78,12 @@ export default function Navbar() {
               Home
             </button>
             <button
+              onClick={() => scrollToSection("projects")}
+              className="text-[15px] font-medium hover:text-blue-400 transition"
+            >
+              Projects
+            </button>
+            <button
               onClick={() => scrollToSection("experience")}
               className="text-[15px] font-medium hover:text-blue-400 transition"
             >
@@ -88,12 +94,6 @@ export default function Navbar() {
               className="text-[15px] font-medium hover:text-blue-400 transition"
             >
               Skills
-            </button>
-            <button
-              onClick={() => scrollToSection("projects")}
-              className="text-[15px] font-medium hover:text-blue-400 transition"
-            >
-              Projects
             </button>
             <button
               onClick={() => scrollToSection("contact")}
@@ -258,6 +258,12 @@ export default function Navbar() {
                     Home
                   </button>
                   <button
+                    onClick={() => scrollToSection("projects")}
+                    className="text-left text-base font-medium hover:text-blue-400 transition py-2 border-b border-white/10"
+                  >
+                    Projects
+                  </button>
+                  <button
                     onClick={() => scrollToSection("experience")}
                     className="text-left text-base font-medium hover:text-blue-400 transition py-2 border-b border-white/10"
                   >
@@ -268,12 +274,6 @@ export default function Navbar() {
                     className="text-left text-base font-medium hover:text-blue-400 transition py-2 border-b border-white/10"
                   >
                     Skills
-                  </button>
-                  <button
-                    onClick={() => scrollToSection("projects")}
-                    className="text-left text-base font-medium hover:text-blue-400 transition py-2 border-b border-white/10"
-                  >
-                    Projects
                   </button>
                   <button
                     onClick={() => scrollToSection("contact")}

@@ -83,9 +83,9 @@ export default function HomePage() {
 
       <Navbar />
       <Hero />
+      <Projects />
       <Experience />
       <Skills />
-      <Projects />
       <Contact />
 
       {/* Scroll to Top Button */}
