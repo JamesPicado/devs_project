@@ -1,0 +1,154 @@
+"use client";
+
+import { motion } from "framer-motion";
+
+const PROJECTS = [
+  {
+    title: "Temco Engineered Products, Inc.",
+    role: "Truck Manufacturers",
+    image: "/img_projects/temcousa.png",
+    imageAlt: "Home page with 3 different themed images. Welder performing high-precision metal fabrication during the manufacturing process at TEMCO.",
+    description:
+      "Corporate website to highlight industrial capabilities, manufacturing processes, quality control, and service catalog, with clear sections and a focus on converting B2B clients.",
+    highlights: [
+      "Architected a modular Next.js dashboard with live scheduling, advanced filtering, and financial rollups.",
+      "Set up streaming data sync jobs that hydrate insights dashboards in seconds instead of hours.",
+      "Partnered with product to prototype new coaching tools, compressing release cycles from weeks to days.",
+    ],
+    stack: ["Next.js", "React Query", "Node.js", "PostgreSQL", "AWS", "Tailwind"],
+    link: "https://temcousa.com",
+    accent: "from-blue-500/40 via-cyan-400/20 to-transparent",
+  },
+  {
+    title: "Restaurante Costa Rica",
+    role: "Full-Stack Engineer · Atlantbh",
+    image: "/img_projects/analytics-control-room.png",
+    imageAlt: "Analytics dashboard mockup with charts and KPIs",
+    description:
+      "Designed a modern website for a restaurant, focusing on elegance and usability. Includes an interactive digital menu, reservation system, dish gallery, chef section, and dynamic customer reviews.",
+    highlights: [
+      "Interactive digital menu: Smooth navigation with high-quality images, prices, and dish descriptions.",
+      "Reservation system: Integration of a dynamic form allowing real-time table booking.",
+      "Dynamic gallery: Optimized photo carousel with smooth animations and lazy loading.",
+    ],
+    stack: ["Next.js", "React", "Tailwind CSS", "Framer Motion"],
+    link: "",
+    accent: "from-indigo-500/40 via-purple-500/20 to-transparent",
+  },
+  {
+    title: "Gym Costa Rica",
+    role: "Full-Stack Engineer · Atlantbh",
+    image: "/img_projects/temcousa.png",
+    imageAlt: "Analytics dashboard mockup with charts and KPIs",
+    description:
+      "Designed a modern website for a restaurant, focusing on elegance and usability. Includes an interactive digital menu, reservation system, dish gallery, chef section, and dynamic customer reviews.",
+    highlights: [
+      "Interactive digital menu: Smooth navigation with high-quality images, prices, and dish descriptions.",
+      "Reservation system: Integration of a dynamic form allowing real-time table booking.",
+      "Dynamic gallery: Optimized photo carousel with smooth animations and lazy loading.",
+    ],
+    stack: ["Next.js", "React", "Tailwind CSS", "Framer Motion"],
+    link: "",
+    accent: "from-indigo-500/40 via-purple-500/20 to-transparent",
+  },
+] as const;
+
+const PROJECT_GRID_VARIANTS = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.18,
+      delayChildren: 0.1,
+    },
+  },
+} as const;
+
+const PROJECT_CARD_VARIANTS = {
+  hidden: { opacity: 0, y: 36, rotateX: -6, scale: 0.94 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    rotateX: 0,
+    scale: 1,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+} as const;
+
+export default function Projects() {
+  return (
+    <section id="projects" className="relative z-10 w-full bg-[var(--background)] text-[var(--foreground)] px-4 py-24 sm:px-6 overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-x-0 top-24 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+        <div className="absolute left-10 top-10 h-64 w-64 rounded-full bg-blue-500/10 blur-[140px]" />
+        <div className="absolute right-12 bottom-16 h-72 w-72 rounded-full bg-purple-500/10 blur-[160px]" />
+      </div>
+
+      <div className="relative max-w-5xl mx-auto text-center space-y-4 pt-12">
+        <p className="text-xs uppercase tracking-[0.55em] text-[var(--foreground)]/60">Selected Work</p>
+        <h2 className="text-4xl font-extrabold">Projects</h2>
+        <p className="text-[var(--foreground)]/70 text-sm leading-relaxed">
+          Every website I build is a completely unique project. I listen to what each client needs and transform those ideas into personalized, functional digital experiences aligned with the essence of their business.
+        </p>
+      </div>
+
+      <div className="relative max-w-6xl mx-auto mt-16">
+        <motion.div
+          className="grid gap-8 sm:grid-cols-2 xl:grid-cols-3"
+          variants={PROJECT_GRID_VARIANTS}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+        >
+          {PROJECTS.map((project, index) => {
+            const hasLink = Boolean(project.link);
+            return (
+              <motion.article
+                key={project.title}
+                variants={PROJECT_CARD_VARIANTS}
+                className="group flex h-full flex-col gap-6 rounded-[32px] border border-white/15 p-6 transition duration-300 hover:border-white/45 hover:bg-[rgba(var(--background-rgb),0.25)]"
+              >
+                <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-[rgba(var(--background-rgb),0.35)] shadow-[0_10px_45px_rgba(0,0,0,0.35)] transition duration-500 group-hover:-translate-y-1 group-hover:border-white/40">
+                  <div className="relative aspect-[4/3] w-full">
+                    <img src={project.image} alt={project.imageAlt} loading="lazy" className="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
+                    <div className={`absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-70 bg-gradient-to-br ${project.accent}`} />
+                  </div>
+                  <div className="absolute inset-4 rounded-[20px] border border-white/25 opacity-0 transition duration-500 group-hover:opacity-80" />
+                </div>
+
+                <div className="flex flex-1 flex-col gap-3 px-1">
+                  <p className="text-[11px] uppercase tracking-[0.45em] text-[var(--foreground)]/60">0{index + 1} · {project.role}</p>
+                  <h3 className="text-2xl font-semibold leading-snug">{project.title}</h3>
+                  <p className="text-sm text-[var(--foreground)]/75">{project.description}</p>
+
+                  <div className="flex flex-wrap gap-2 pt-3 text-[10px] uppercase tracking-[0.35em] text-[var(--foreground)]/70">
+                    {project.stack.map((tech) => (
+                      <span key={tech} className="rounded-full border border-white/15 bg-white/5 px-3 py-1">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="pt-4">
+                    {hasLink ? (
+                      <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-2 text-sm font-semibold tracking-wide text-blue-300 transition hover:text-white"
+                      >
+                        View Details
+                        <span aria-hidden="true">↗</span>
+                      </a>
+                    ) : (
+                      <span className="text-sm uppercase tracking-[0.3em] text-[var(--foreground)]/45">Private Project</span>
+                    )}
+                  </div>
+                </div>
+              </motion.article>
+            );
+          })}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
