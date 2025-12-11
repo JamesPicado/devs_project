@@ -1,7 +1,17 @@
 "use client";
 
+import Script from "next/script";
 import { motion, AnimatePresence, useInView, type Variants } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
+
+declare global {
+  interface Window {
+    grecaptcha?: {
+      ready: (cb: () => void) => void;
+      execute: (siteKey: string, options: { action: string }) => Promise<string>;
+    };
+  }
+}
 /**
  * Photo gallery: local images from Jonathan Cordova R.
  * Images stored in /public/img_projects/ starting with DSC
@@ -228,6 +238,7 @@ export default function HomePage() {
   const [contactForm, setContactForm] = useState({ name: "", email: "", country: "CR", phone: "", message: "" });
   const [countryOptions, setCountryOptions] = useState(Array.from(DEFAULT_COUNTRIES));
   const [contactStatus, setContactStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [captchaReady, setCaptchaReady] = useState(false);
   const navRef = useRef<HTMLDivElement | null>(null);
   const experienceRef = useRef<HTMLElement | null>(null);
   const heroRef = useRef<HTMLElement | null>(null);
@@ -294,10 +305,29 @@ export default function HomePage() {
     e.preventDefault();
     if (contactStatus === "sending") return;
     setContactStatus("sending");
+    const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+    let recaptchaToken = "";
+    if (siteKey) {
+      if (!window.grecaptcha) {
+        setContactStatus("error");
+        return;
+      }
+      try {
+        await new Promise<void>((resolve) => {
+          window.grecaptcha?.ready(() => resolve());
+        });
+        recaptchaToken = await window.grecaptcha.execute(siteKey, { action: "contact" });
+      } catch (error) {
+        console.error("reCAPTCHA error", error);
+        setContactStatus("error");
+        return;
+      }
+    }
     const countryInfo = countryOptions.find((country) => country.code === contactForm.country);
     const payload = {
       ...contactForm,
       country: countryInfo ? `${countryInfo.flag} ${countryInfo.name} (${countryInfo.dial})` : contactForm.country,
+      recaptchaToken,
     };
     try {
       const res = await fetch("/api/contact", {
@@ -315,6 +345,26 @@ export default function HomePage() {
   };
 
   const selectedCountry = countryOptions.find((country) => country.code === contactForm.country);
+  const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? "";
+
+  useEffect(() => {
+    if (!siteKey) {
+      setCaptchaReady(true);
+      return;
+    }
+    let interval: NodeJS.Timeout | null = null;
+    const checkCaptcha = () => {
+      if (window.grecaptcha) {
+        window.grecaptcha.ready(() => setCaptchaReady(true));
+        if (interval) clearInterval(interval);
+      }
+    };
+    checkCaptcha();
+    interval = setInterval(checkCaptcha, 500);
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [siteKey]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -373,6 +423,13 @@ export default function HomePage() {
   let letterCounter = 0;
   return (
     <div className="relative min-h-screen w-full bg-[var(--background)] text-[var(--foreground)]">
+      {siteKey && (
+        <Script
+          src={`https://www.google.com/recaptcha/api.js?render=${siteKey}`}
+          strategy="lazyOnload"
+          onLoad={() => setCaptchaReady(true)}
+        />
+      )}
       {/* Subtle dot background */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle,var(--dot-color)_1.4px,transparent_1.4px)] bg-[length:14px_14px] opacity-45" />
 
@@ -980,7 +1037,7 @@ export default function HomePage() {
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <button
                 type="submit"
-                disabled={contactStatus === "sending"}
+                disabled={contactStatus === "sending" || (Boolean(siteKey) && !captchaReady)}
                 className="rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:bg-blue-400"
               >
                 {contactStatus === "sending" ? "Sending..." : "Send"}
@@ -988,6 +1045,9 @@ export default function HomePage() {
 
               {contactStatus === "success" && <p className="text-sm text-emerald-400">Message sent successfully.</p>}
               {contactStatus === "error" && <p className="text-sm text-red-400">An error occurred. Please try again.</p>}
+              {siteKey && !captchaReady && contactStatus !== "error" && (
+                <p className="text-sm text-[var(--foreground)]/50">Activating bot protection...</p>
+              )}
             </div>
           </form>
         </div>

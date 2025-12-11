@@ -10,13 +10,29 @@ const transporter = nodemailer.createTransport({
 });
 
 export async function POST(request: Request) {
-  const { name, email, phone, country, message } = await request.json();
+  const { name, email, phone, country, message, recaptchaToken } = await request.json();
 
   if (!name || !email || !message) {
     return NextResponse.json({ error: "Invalid data" }, { status: 400 });
   }
 
   try {
+    const secret = process.env.RECAPTCHA_SECRET_KEY;
+    if (secret) {
+      if (!recaptchaToken) {
+        return NextResponse.json({ error: "Missing reCAPTCHA token" }, { status: 400 });
+      }
+      const verifyRes = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `secret=${secret}&response=${recaptchaToken}`,
+      });
+      const verifyData = await verifyRes.json();
+      if (!verifyData.success || verifyData.score < 0.5) {
+        return NextResponse.json({ error: "reCAPTCHA failed" }, { status: 400 });
+      }
+    }
+
     const plainCountry = country ? `Country: ${country}` : "";
     const plainPhone = phone ? `Phone: ${phone}` : "";
     const plainText = `New message from ${name}\n${plainCountry}\n${plainPhone}\nEmail: ${email}\n\n${message}`;
