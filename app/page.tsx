@@ -3,35 +3,35 @@
 import { motion, AnimatePresence, useInView, type Variants } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 /**
- * Galería de fotografías: controla qué imágenes se muestran en cada fila y en qué dirección se desplazan.
- * Se usan después en la sección Skills con animaciones de Framer Motion.
+ * Photo gallery: controls which images are shown in each row and which direction they scroll.
+ * Used later in the Skills section with Framer Motion animations.
  */
 const SKILL_GALLERY_ROWS = [
   {
     direction: "left",
     images: [
-      { src: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80", alt: "Retrato creativo con luces neón" },
-      { src: "https://images.unsplash.com/photo-1506354666786-959d6d497f1a?auto=format&fit=crop&w=1600&q=80", alt: "Diseño interior cálido" },
-      { src: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1600&q=80", alt: "Ambiente arquitectónico moderno" },
-      { src: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1600&q=80", alt: "Detalle editorial de moda" },
+      { src: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80", alt: "Creative portrait with neon lights" },
+      { src: "https://images.unsplash.com/photo-1506354666786-959d6d497f1a?auto=format&fit=crop&w=1600&q=80", alt: "Warm interior design" },
+      { src: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1600&q=80", alt: "Modern architectural environment" },
+      { src: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1600&q=80", alt: "Fashion editorial detail" },
     ],
   },
   {
     direction: "right",
     images: [
-      { src: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80", alt: "Retrato creativo con luces neón" },
-      { src: "https://images.unsplash.com/photo-1506354666786-959d6d497f1a?auto=format&fit=crop&w=1600&q=80", alt: "Diseño interior cálido" },
-      { src: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1600&q=80", alt: "Ambiente arquitectónico moderno" },
-      { src: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1600&q=80", alt: "Detalle editorial de moda" },
+      { src: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80", alt: "Creative portrait with neon lights" },
+      { src: "https://images.unsplash.com/photo-1506354666786-959d6d497f1a?auto=format&fit=crop&w=1600&q=80", alt: "Warm interior design" },
+      { src: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1600&q=80", alt: "Modern architectural environment" },
+      { src: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1600&q=80", alt: "Fashion editorial detail" },
     ],
   },
   {
     direction: "left",
     images: [
-      { src: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80", alt: "Retrato creativo con luces neón" },
-      { src: "https://images.unsplash.com/photo-1506354666786-959d6d497f1a?auto=format&fit=crop&w=1600&q=80", alt: "Diseño interior cálido" },
-      { src: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1600&q=80", alt: "Ambiente arquitectónico moderno" },
-      { src: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1600&q=80", alt: "Detalle editorial de moda" },
+      { src: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80", alt: "Creative portrait with neon lights" },
+      { src: "https://images.unsplash.com/photo-1506354666786-959d6d497f1a?auto=format&fit=crop&w=1600&q=80", alt: "Warm interior design" },
+      { src: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1600&q=80", alt: "Modern architectural environment" },
+      { src: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1600&q=80", alt: "Fashion editorial detail" },
     ],
   },
 ] as const;
@@ -44,16 +44,16 @@ const GALLERY_SCROLL_FRAMES: Record<"left" | "right", number[]> = {
 const GALLERY_SCROLL_DURATION = 45;
 
 /**
- * Lista de proyectos destacados que se renderizan en la sección Projects.
+ * List of featured projects rendered in the Projects section.
  */
 const PROJECTS = [
   {
     title: "Temco Engineered Products, Inc.",
     role: "Truck Manufacturers",
     image: "/img_projects/temcousa.png",
-    imageAlt: "Pagina de inicio, con 3 imagenes diferentes tematicasWelder performing high-precision metal fabrication during the manufacturing process at TEMCO.",
+    imageAlt: "Home page with 3 different themed images. Welder performing high-precision metal fabrication during the manufacturing process at TEMCO.",
     description:
-      "Sitio web corporativo para destacar capacidades industriales, procesos de manufactura, control de calidad y catálogo de servicios, con secciones claras y enfoque en convertir clientes B2B.",
+      "Corporate website to highlight industrial capabilities, manufacturing processes, quality control, and service catalog, with clear sections and a focus on converting B2B clients.",
     highlights: [
       "Architected a modular Next.js dashboard with live scheduling, advanced filtering, and financial rollups.",
       "Set up streaming data sync jobs that hydrate insights dashboards in seconds instead of hours.",
@@ -69,11 +69,11 @@ const PROJECTS = [
     image: "/img_projects/analytics-control-room.png",
     imageAlt: "Analytics dashboard mockup with charts and KPIs",
     description:
-      "Diseñé una web moderna para un restaurante, con enfoque en elegancia y usabilidad. Incluye menú digital interactivo, sistema de reservas, galería de platillos, sección del chef y reseñas dinámicas de clientes.",
+      "Designed a modern website for a restaurant, focusing on elegance and usability. Includes an interactive digital menu, reservation system, dish gallery, chef section, and dynamic customer reviews.",
     highlights: [
-      "Menú digital interactivo: Navegación fluida con imágenes de alta calidad, precios y descripciones de los platillos.",
-      "Sistema de reservas: Integración de un formulario dinámico que permite agendar mesas en tiempo real.",
-      "Galería dinámica: Carrusel de fotografías optimizado con animaciones suaves y carga diferida.",
+      "Interactive digital menu: Smooth navigation with high-quality images, prices, and dish descriptions.",
+      "Reservation system: Integration of a dynamic form allowing real-time table booking.",
+      "Dynamic gallery: Optimized photo carousel with smooth animations and lazy loading.",
     ],
     stack: ["Next.js", "React", "Tailwind CSS", "Framer Motion"],
     link: "",
@@ -85,11 +85,11 @@ const PROJECTS = [
     image: "/img_projects/temcousa.png",
     imageAlt: "Analytics dashboard mockup with charts and KPIs",
     description:
-      "Diseñé una web moderna para un restaurante, con enfoque en elegancia y usabilidad. Incluye menú digital interactivo, sistema de reservas, galería de platillos, sección del chef y reseñas dinámicas de clientes.",
+      "Designed a modern website for a restaurant, focusing on elegance and usability. Includes an interactive digital menu, reservation system, dish gallery, chef section, and dynamic customer reviews.",
     highlights: [
-      "Menú digital interactivo: Navegación fluida con imágenes de alta calidad, precios y descripciones de los platillos.",
-      "Sistema de reservas: Integración de un formulario dinámico que permite agendar mesas en tiempo real.",
-      "Galería dinámica: Carrusel de fotografías optimizado con animaciones suaves y carga diferida.",
+      "Interactive digital menu: Smooth navigation with high-quality images, prices, and dish descriptions.",
+      "Reservation system: Integration of a dynamic form allowing real-time table booking.",
+      "Dynamic gallery: Optimized photo carousel with smooth animations and lazy loading.",
     ],
     stack: ["Next.js", "React", "Tailwind CSS", "Framer Motion"],
     link: "",
@@ -119,55 +119,55 @@ const PROJECT_CARD_VARIANTS = {
 } as const;
 
 /**
- * Experiencia / servicios que se muestran como tarjetas animadas.
+ * Experience / services shown as animated cards.
  */
 const EXPERIENCES = [
   {
-    title: "Diseño Web / UI–UX",
-    subtitle: "Software Engineer | Aplicaciones / Sistemas Web",
+    title: "Web Design / UI–UX",
+    subtitle: "Software Engineer | Web Systems / Applications",
     highlights: [
-      "Diseño de sitios web modernos y responsivos con enfoque en usabilidad (UX) y estética profesional (UI).",
-      "Creación de landing pages optimizadas para conversiones y campañas marketing.",
-      "Diseño de interfaces intuitivas para paneles administrativos, dashboards y herramientas internas.",
+      "Design of modern and responsive websites focusing on usability (UX) and professional aesthetics (UI).",
+      "Creation of landing pages optimized for conversions and marketing campaigns.",
+      "Design of intuitive interfaces for admin panels, dashboards, and internal tools.",
     ],
-    badge: "Soluciones a medida",
+    badge: "Custom Solutions",
     accent: "from-sky-500/45 via-blue-500/10 to-transparent",
-    icon: "/icons/diseno_web.png",
+    icon: "/icons/web_design.png",
   },
   {
-    title: "Sistemas Web y Aplicaciones",
-    subtitle: "Software Engineer | Aplicaciones / Sistemas Web",
+    title: "Web Systems and Applications",
+    subtitle: "Software Engineer | Web Systems / Applications",
     highlights: [
-      "Desarrollo de sistemas empresariales a la medida (inventarios, CRM, ventas, control de procesos).",
-      "Implementación de plataformas de reservas, catálogos dinámicos, blogs, ecommerce",
-      "Migración y modernización de sistemas existentes a tecnologías web actuales.",
+      "Development of custom enterprise systems (inventories, CRM, sales, process control).",
+      "Implementation of reservation platforms, dynamic catalogs, blogs, ecommerce.",
+      "Migration and modernization of existing systems to current web technologies.",
     ],
-    badge: "Plataformas",
+    badge: "Platforms",
     accent: "from-emerald-500/45 via-lime-400/15 to-transparent",
-    icon: "/icons/sistemas_aplicaciones.png",
+    icon: "/icons/web_systems.png",
   },
   {
-    title: "Contenido Visual / Fotografía / Multimedia",
-    subtitle: "Software Engineer | Aplicaciones / Sistemas Web",
+    title: "Visual Content / Photography / Multimedia",
+    subtitle: "Software Engineer | Web Systems / Applications",
     highlights: [
-      "Producción y edición de fotografías para sitios web, catálogos y contenido corporativo.",
-      "Creación de material visual para banners, portadas, redes sociales y contenido publicitario.",
-      "Captura visual profesional orientada a negocios como restaurantes, productos, servicios, turismo, etc.",
+      "Production and editing of photographs for websites, catalogs, and corporate content.",
+      "Creation of visual material for banners, covers, social media, and advertising content.",
+      "Professional visual capture oriented towards businesses such as restaurants, products, services, tourism, etc.",
     ],
     badge: "Branding",
     accent: "from-fuchsia-500/40 via-pink-500/15 to-transparent",
-    icon: "/icons/contenido_visual.png",
+    icon: "/icons/visual_content.png",
   },
   {
-    title: "Mantenimiento y soporte web mensual",
+    title: "Monthly Web Maintenance and Support",
     subtitle: "",
     highlights: [
-      "Actualizaciones, mejoras, backups y optimización continua del sitio.",
-      "Corrección de errores, monitoreo y mejoras de seguridad.",
+      "Updates, improvements, backups, and continuous site optimization.",
+      "Bug fixing, monitoring, and security improvements.",
     ],
-    badge: "Continuidad",
+    badge: "Continuity",
     accent: "from-indigo-500/40 via-purple-500/20 to-transparent",
-    icon: "/icons/soporte_mantenimiento.png",
+    icon: "/icons/maintenance_support.png",
   },
 ] as const;
 
@@ -197,11 +197,11 @@ export default function HomePage() {
   const experienceRef = useRef<HTMLElement | null>(null);
   const heroRef = useRef<HTMLElement | null>(null);
 
-  // Observa la sección hero para disparar animaciones de texto
+  // Observes the hero section to trigger text animations
   const heroInView = useInView(heroRef, { amount: 0.75 });
   const [textCycle, setTextCycle] = useState(0);
   /**
-   * Animación para las letras del hero principal.
+   * Animation for the main hero letters.
    */
   const letterVariants: Variants = {
     hidden: { opacity: 0, x: -12 },
@@ -212,12 +212,12 @@ export default function HomePage() {
     },
   };
 
-  // Actualiza el estado del formulario de contacto campo por campo
+  // Updates contact form state field by field
   const updateContactForm = (field: string, value: string) => {
     setContactForm((prev) => ({ ...prev, [field]: value }));
   };
 
-  // Envía los datos del formulario al endpoint /api/contact
+  // Sends form data to /api/contact endpoint
   const submitContactForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (contactStatus === "sending") return;
@@ -327,7 +327,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* NAVBAR: menú principal + toggles */}
+      {/* NAVBAR: main menu + toggles */}
       <div
         className="w-full flex justify-center mt-0 mb-4 sticky top-0 z-20 bg-[rgba(var(--background-rgb),0.85)] backdrop-blur-md"
         ref={navRef}
@@ -434,7 +434,7 @@ export default function HomePage() {
             <button
               onClick={() => setThemeMode((prev) => (prev === "dark" ? "light" : "dark"))}
               className="relative flex items-center gap-2 rounded-full border border-white/15 bg-[rgba(var(--background-rgb),0.35)] px-4 py-2 shadow-[0_0_20px_rgba(0,0,0,0.35)] transition hover:border-white/30"
-              aria-label="Cambiar tema"
+              aria-label="Toggle theme"
             >
               <span
                 className={`flex h-8 w-8 items-center justify-center rounded-full text-xl transition ${
@@ -460,7 +460,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* HERO SECTION: animación del titular principal con texto tecleado */}
+      {/* HERO SECTION: main headline animation with typing text */}
       <section
         id="home"
         ref={heroRef}
@@ -532,7 +532,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* EXPERIENCE SECTION: tarjetas de experiencia/servicios */}
+      {/* EXPERIENCE SECTION: experience/service cards */}
       <section
         id="experience"
         ref={experienceRef}
@@ -546,7 +546,7 @@ export default function HomePage() {
 
         <div className="relative max-w-6xl mx-auto">
           <div className="text-center max-w-3xl mx-auto">
-            <p className="text-xs uppercase tracking-[0.4em] text-[var(--foreground)]/50">Servicios y experiencia</p>
+            <p className="text-xs uppercase tracking-[0.4em] text-[var(--foreground)]/50">Services & Experience</p>
             <motion.h2
               key={themeMode}
               className={`text-3xl sm:text-4xl font-black mt-4 uppercase tracking-[0.2em] sm:tracking-[0.35em] ${
@@ -569,7 +569,7 @@ export default function HomePage() {
                 ease: "easeInOut",
               }}
             >
-              {Array.from("EXPERIENCIA").map((letter, idx) => (
+              {Array.from("EXPERIENCE").map((letter, idx) => (
                 <motion.span
                   key={`${letter}-${idx}`}
                   animate={{ y: [0, idx % 2 === 0 ? -6 : 4, 0] }}
@@ -581,7 +581,7 @@ export default function HomePage() {
               ))}
             </motion.h2>
             <p className="mt-5 text-lg leading-relaxed text-[var(--foreground)]/90 tracking-[0.02em]">
-              Diseño y desarrollo soluciones digitales adaptadas a cualquier necesidad, desde interfaces y sitios web hasta aplicaciones y sistemas empresariales, incluyendo contenido visual, optimización y soporte continuo.
+              Designing and developing digital solutions tailored to any need, from interfaces and websites to applications and enterprise systems, including visual content, optimization, and continuous support.
             </p>
           </div>
 
@@ -635,14 +635,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* SKILLS SECTION: galería fotográfica animada */}
+      {/* SKILLS SECTION: animated photo gallery */}
       <section id="skills" className="relative z-10 w-full min-h-screen bg-[var(--background)] text-[var(--foreground)] px-0 py-24 overflow-hidden">
         <div className="space-y-12">
           <div className="text-center space-y-4 px-4 sm:px-6">
             <p className="text-xs uppercase tracking-[0.5em] text-[var(--foreground)]/60">Photography</p>
-            <h2 className="text-4xl font-extrabold">Galería dinámica</h2>
+            <h2 className="text-4xl font-extrabold">Dynamic Gallery</h2>
             <p className="text-sm text-[var(--foreground)]/75 max-w-3xl mx-auto">
-             Produccion de fotografias para turismo etc
+             Photography production for tourism, etc.
             </p>
           </div>
 
@@ -680,7 +680,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* PROJECTS SECTION: grid de trabajos destacados */}
+      {/* PROJECTS SECTION: featured works grid */}
       <section id="projects" className="relative z-10 w-full bg-[var(--background)] text-[var(--foreground)] px-4 py-24 sm:px-6 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute inset-x-0 top-24 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
@@ -689,10 +689,10 @@ export default function HomePage() {
         </div>
 
         <div className="relative max-w-5xl mx-auto text-center space-y-4">
-          <p className="text-xs uppercase tracking-[0.55em] text-[var(--foreground)]/60">Trabajos seleccionados</p>
-          <h2 className="text-4xl font-extrabold">Proyectos</h2>
+          <p className="text-xs uppercase tracking-[0.55em] text-[var(--foreground)]/60">Selected Work</p>
+          <h2 className="text-4xl font-extrabold">Projects</h2>
           <p className="text-[var(--foreground)]/70 text-sm leading-relaxed">
-            Cada página web que construyo es un proyecto completamente único. Escucho lo que cada cliente necesita y transformo esas ideas en experiencias digitales personalizadas, funcionales y alineadas con la esencia de su negocio.
+            Every website I build is a completely unique project. I listen to what each client needs and transform those ideas into personalized, functional digital experiences aligned with the essence of their business.
           </p>
         </div>
 
@@ -741,11 +741,11 @@ export default function HomePage() {
                           rel="noreferrer"
                           className="inline-flex items-center gap-2 text-sm font-semibold tracking-wide text-blue-300 transition hover:text-white"
                         >
-                          Ver detalles
+                          View Details
                           <span aria-hidden="true">↗</span>
                         </a>
                       ) : (
-                        <span className="text-sm uppercase tracking-[0.3em] text-[var(--foreground)]/45">Proyecto privado</span>
+                        <span className="text-sm uppercase tracking-[0.3em] text-[var(--foreground)]/45">Private Project</span>
                       )}
                     </div>
                   </div>
@@ -756,27 +756,27 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CONTACT SECTION: formulario que envía correos a Gmail */}
+      {/* CONTACT SECTION: form that sends emails to Gmail */}
       <section id="contact" className="relative z-10 w-full bg-[var(--background)] text-[var(--foreground)] px-4 sm:px-6 py-24">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-10">
-            <p className="text-xs uppercase tracking-[0.5em] text-[var(--foreground)]/60">Contacto</p>
-            <h2 className="text-4xl font-extrabold mt-3">Trabajemos juntos</h2>
+            <p className="text-xs uppercase tracking-[0.5em] text-[var(--foreground)]/60">Contact</p>
+            <h2 className="text-4xl font-extrabold mt-3">Let's Work Together</h2>
             <p className="text-sm text-[var(--foreground)]/70 mt-3">
-              Completa el formulario. Responderé lo antes posible.
+              Fill out the form. I will respond as soon as possible.
             </p>
           </div>
 
           <form onSubmit={submitContactForm} className="space-y-6 bg-[rgba(var(--background-rgb),0.4)] border border-white/10 rounded-[36px] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
             <label className="block text-sm font-semibold uppercase tracking-[0.3em] text-[var(--foreground)]/70">
-              Nombre
+              Name
               <input
                 type="text"
                 required
                 value={contactForm.name}
                 onChange={(e) => updateContactForm("name", e.target.value)}
                 className="mt-2 w-full rounded-2xl border border-white/10 bg-[rgba(var(--background-rgb),0.35)] px-4 py-3 text-base text-[var(--foreground)] placeholder:text-[var(--foreground)]/40 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Cual es tu nombre?"
+                placeholder="What is your name?"
               />
             </label>
 
@@ -793,14 +793,14 @@ export default function HomePage() {
             </label>
 
             <label className="block text-sm font-semibold uppercase tracking-[0.3em] text-[var(--foreground)]/70">
-              Mensaje
+              Message
               <textarea
                 required
                 rows={5}
                 value={contactForm.message}
                 onChange={(e) => updateContactForm("message", e.target.value)}
                 className="mt-2 w-full rounded-2xl border border-white/10 bg-[rgba(var(--background-rgb),0.35)] px-4 py-3 text-base text-[var(--foreground)] placeholder:text-[var(--foreground)]/40 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-                placeholder="Cuéntame sobre tu proyecto..."
+                placeholder="Tell me about your project..."
               />
             </label>
 
@@ -810,11 +810,11 @@ export default function HomePage() {
                 disabled={contactStatus === "sending"}
                 className="rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:bg-blue-400"
               >
-                {contactStatus === "sending" ? "Enviando..." : "Enviar"}
+                {contactStatus === "sending" ? "Sending..." : "Send"}
               </button>
 
-              {contactStatus === "success" && <p className="text-sm text-emerald-400">Mensaje enviado correctamente.</p>}
-              {contactStatus === "error" && <p className="text-sm text-red-400">Ocurrió un error. Intenta nuevamente.</p>}
+              {contactStatus === "success" && <p className="text-sm text-emerald-400">Message sent successfully.</p>}
+              {contactStatus === "error" && <p className="text-sm text-red-400">An error occurred. Please try again.</p>}
             </div>
           </form>
         </div>
@@ -822,7 +822,7 @@ export default function HomePage() {
 
       {galleryModal ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-6">
-          <button className="absolute inset-0 cursor-default" onClick={() => setGalleryModal(null)} aria-label="Cerrar galería" />
+          <button className="absolute inset-0 cursor-default" onClick={() => setGalleryModal(null)} aria-label="Close gallery" />
           <div className="relative z-10 max-w-6xl w-full">
             <div className="flex justify-end mb-4">
               <button
@@ -830,7 +830,7 @@ export default function HomePage() {
                 onClick={() => setGalleryModal(null)}
                 className="rounded-full border border-white/40 px-4 py-1 text-sm uppercase tracking-[0.3em] text-white hover:border-white"
               >
-                Cerrar
+                Close
               </button>
             </div>
             <div className="overflow-hidden rounded-[48px] border border-white/20 bg-black/40 shadow-[0_40px_140px_rgba(0,0,0,0.7)]">
