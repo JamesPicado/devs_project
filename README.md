@@ -1,92 +1,92 @@
 # Portfolio Devs
 
-Portafolio profesional de desarrolladores construido con Next.js 16, React 19, TypeScript y Tailwind CSS. Incluye animaciones fluidas con Framer Motion y funcionalidad de contacto mediante nodemailer.
+Professional developer portfolio built with Next.js 16, React 19, TypeScript, and Tailwind CSS. Includes smooth animations with Framer Motion and contact functionality via Nodemailer.
 
-## 🚀 Características
+## 🚀 Features
 
-- **Next.js 16** con Turbopack para desarrollo ultra-rápido
-- **React 19** con las últimas características
-- **TypeScript** para código type-safe
-- **Tailwind CSS 4** para estilos modernos y responsivos
-- **Framer Motion** para animaciones suaves
-- **Formulario de contacto** con integración de email
-- Diseño completamente responsive
+- **Next.js 16** with Turbopack for ultra-fast development
+- **React 19** with the latest features
+- **TypeScript** for type-safe code
+- **Tailwind CSS 4** for modern and responsive styling
+- **Framer Motion** for smooth animations
+- **Contact Form** with email integration
+- Fully responsive design
 
-## 📋 Requisitos Previos
+## 📋 Prerequisites
 
-- Node.js 18.x o superior
-- npm, yarn, pnpm o bun
+- Node.js 18.x or higher
+- npm, yarn, pnpm, or bun
 
-## 🛠️ Instalación
+## 🛠️ Installation
 
-1. **Clona el repositorio**
+1. **Clone the repository**
    ```bash
    git clone https://github.com/JamesPicado/devs_project.git
    cd devs_project
    ```
 
-2. **Instala las dependencias**
+2. **Install dependencies**
    ```bash
    npm install
    ```
 
-3. **Configura las variables de entorno** (si es necesario)
-   Crea un archivo `.env.local` con tus configuraciones de email para nodemailer.
+3. **Configure environment variables** (if necessary)
+   Create a `.env.local` file with your email configurations for Nodemailer.
 
-4. **Inicia el servidor de desarrollo**
+4. **Start the development server**
    ```bash
    npm run dev
    ```
 
-5. **Abre tu navegador**
-   Navega a [http://localhost:3000](http://localhost:3000) para ver el proyecto.
+5. **Open your browser**
+   Navigate to [http://localhost:3000](http://localhost:3000) to view the project.
 
-## 📦 Scripts Disponibles
+## 📦 Available Scripts
 
-- `npm run dev` - Inicia el servidor de desarrollo
-- `npm run build` - Crea la versión de producción
-- `npm run start` - Inicia el servidor de producción
-- `npm run lint` - Ejecuta el linter
+- `npm run dev` - Starts the development server
+- `npm run build` - Creates the production version
+- `npm run start` - Starts the production server
+- `npm run lint` - Runs the linter
 
-## 🏗️ Estructura del Proyecto
+## 🏗️ Project Structure
 
 ```
 devs_project/
-├── app/                    # App Router de Next.js
+├── app/                    # Next.js App Router
 │   ├── api/               # API Routes
-│   ├── fonts.ts           # Configuración de fuentes
-│   ├── globals.css        # Estilos globales
-│   ├── layout.tsx         # Layout principal
-│   ├── page.tsx           # Página principal
-│   ├── NavigationMenu.tsx # Menú de navegación
-│   └── TypingTitle.tsx    # Componente de título animado
-├── public/                # Archivos estáticos
-│   ├── icons/            # Iconos
-│   └── img_projects/     # Imágenes de proyectos
-└── ...configs             # Archivos de configuración
+│   ├── fonts.ts           # Font configuration
+│   ├── globals.css        # Global styles
+│   ├── layout.tsx         # Main layout
+│   ├── page.tsx           # Home page
+│   ├── NavigationMenu.tsx # Navigation menu
+│   └── TypingTitle.tsx    # Animated title component
+├── public/                # Static files
+│   ├── icons/            # Icons
+│   └── img_projects/     # Project images
+└── ...configs             # Configuration files
 ```
 
-## 🚀 Deploy en Vercel
+## 🚀 Deploy on Vercel
 
-La forma más fácil de deployar tu aplicación Next.js es usar [Vercel](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme):
+The easiest way to deploy your Next.js application is to use [Vercel](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme):
 
-1. Haz push de tu código a GitHub
-2. Importa tu repositorio en Vercel
-3. Vercel detectará automáticamente Next.js y configurará el build
+1. Push your code to GitHub
+2. Import your repository into Vercel
+3. Vercel will automatically detect Next.js and configure the build
 
-Consulta la [documentación de deployment de Next.js](https://nextjs.org/docs/app/building-your-application/deploying) para más detalles.
+Check the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
-## 📚 Recursos
+## 📚 Resources
 
 - [Next.js Documentation](https://nextjs.org/docs)
 - [React Documentation](https://react.dev)
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 - [Framer Motion Documentation](https://www.framer.com/motion/)
 
-## 👨‍💻 Autor
+## 👨‍💻 Author
 
 **JamesPicado**
 
-## 📄 Licencia
+## 📄 License
 
-Este proyecto es privado.
+This project is private.
