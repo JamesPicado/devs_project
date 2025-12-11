@@ -937,15 +937,12 @@ export default function HomePage() {
                       transition: { duration: 0.5, ease: "easeOut" }
                     },
                   }}
-                  className="group relative overflow-hidden rounded-2xl border border-white/10 bg-black/20 shadow-lg transition-all duration-300 hover:shadow-2xl hover:border-white/30 hover:-translate-y-1"
-                  style={{
-                    aspectRatio: "1/1",
-                  }}
+                  className="group relative overflow-hidden rounded-2xl border border-white/10 bg-black/20 shadow-lg transition-all duration-300 hover:shadow-2xl hover:border-white/30 hover:-translate-y-1 aspect-square w-full"
                 >
                   <img 
                     src={image.src} 
                     alt={image.alt} 
-                    className={`h-full w-full transition-transform duration-700 group-hover:scale-110 ${
+                    className={`absolute inset-0 h-full w-full transition-transform duration-700 group-hover:scale-110 ${
                       idx === 0 ? "object-cover object-bottom" : "object-cover"
                     }`}
                     loading="lazy" 
@@ -974,15 +971,12 @@ export default function HomePage() {
                       transition: { duration: 0.5, ease: "easeOut" }
                     },
                   }}
-                  className="group relative overflow-hidden rounded-2xl border border-white/10 bg-black/20 shadow-lg transition-all duration-300 hover:shadow-2xl hover:border-white/30 hover:-translate-y-1"
-                  style={{
-                    aspectRatio: "1/1",
-                  }}
+                  className="group relative overflow-hidden rounded-2xl border border-white/10 bg-black/20 shadow-lg transition-all duration-300 hover:shadow-2xl hover:border-white/30 hover:-translate-y-1 aspect-square w-full"
                 >
                   <img 
                     src={image.src} 
                     alt={image.alt} 
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" 
                     loading="lazy" 
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
