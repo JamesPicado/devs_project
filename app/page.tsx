@@ -3,37 +3,15 @@
 import { motion, AnimatePresence, useInView, type Variants } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 /**
- * Photo gallery: controls which images are shown in each row and which direction they scroll.
- * Used later in the Skills section with Framer Motion animations.
+ * Photo gallery: local images from Jonathan Cordova R.
+ * Images stored in /public/img_projects/ starting with DSC
  */
-const SKILL_GALLERY_ROWS = [
-  {
-    direction: "left",
-    images: [
-      { src: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80", alt: "Creative portrait with neon lights" },
-      { src: "https://images.unsplash.com/photo-1506354666786-959d6d497f1a?auto=format&fit=crop&w=1600&q=80", alt: "Warm interior design" },
-      { src: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1600&q=80", alt: "Modern architectural environment" },
-      { src: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1600&q=80", alt: "Fashion editorial detail" },
-    ],
-  },
-  {
-    direction: "right",
-    images: [
-      { src: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80", alt: "Creative portrait with neon lights" },
-      { src: "https://images.unsplash.com/photo-1506354666786-959d6d497f1a?auto=format&fit=crop&w=1600&q=80", alt: "Warm interior design" },
-      { src: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1600&q=80", alt: "Modern architectural environment" },
-      { src: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1600&q=80", alt: "Fashion editorial detail" },
-    ],
-  },
-  {
-    direction: "left",
-    images: [
-      { src: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80", alt: "Creative portrait with neon lights" },
-      { src: "https://images.unsplash.com/photo-1506354666786-959d6d497f1a?auto=format&fit=crop&w=1600&q=80", alt: "Warm interior design" },
-      { src: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1600&q=80", alt: "Modern architectural environment" },
-      { src: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1600&q=80", alt: "Fashion editorial detail" },
-    ],
-  },
+const GALLERY_IMAGES = [
+  { src: "/img_projects/DSC01634.jpg", alt: "Professional photography" },
+  { src: "/img_projects/DSC01644.jpg", alt: "Creative visual capture" },
+  { src: "/img_projects/DSC01661.jpg", alt: "Artistic composition" },
+  { src: "/img_projects/DSC01672.jpg", alt: "Photography production" },
+  { src: "/img_projects/DSC01698.jpg", alt: "Professional shot" },
 ] as const;
 
 const GALLERY_SCROLL_FRAMES: Record<"left" | "right", number[]> = {
@@ -196,6 +174,7 @@ export default function HomePage() {
   const navRef = useRef<HTMLDivElement | null>(null);
   const experienceRef = useRef<HTMLElement | null>(null);
   const heroRef = useRef<HTMLElement | null>(null);
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
   // Observes the hero section to trigger text animations
   const heroInView = useInView(heroRef, { amount: 0.75 });
@@ -270,6 +249,19 @@ export default function HomePage() {
     localStorage.setItem("theme-mode", themeMode);
   }, [themeMode]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 500);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
@@ -332,129 +324,119 @@ export default function HomePage() {
         className="w-full flex justify-center mt-0 mb-4 sticky top-0 z-20 bg-[rgba(var(--background-rgb),0.85)] backdrop-blur-md"
         ref={navRef}
       >
-        <div className="backdrop-blur-xl bg-[rgba(var(--background-rgb),0.65)] border border-white/10 text-sm px-10 py-4 rounded-full flex items-center gap-8 shadow-[0_0_20px_rgba(0,0,0,0.4)] relative">
-          {/* Navigation dropdown */}
-          <div className="relative mr-6">
-            <button
-              onClick={() => {
-                setNavOpen((prev) => !prev);
-                setSocialOpen(false);
-              }}
-              className="text-[15px] font-medium hover:text-blue-400 transition"
+        <div className="backdrop-blur-xl bg-[rgba(var(--background-rgb),0.65)] border border-white/10 text-sm px-10 py-4 rounded-full flex items-center gap-6 shadow-[0_0_20px_rgba(0,0,0,0.4)] relative">
+          {/* Navigation items */}
+          <button
+            onClick={() => scrollToSection("home")}
+            className="text-[15px] font-medium hover:text-blue-400 transition"
+          >
+            Home
+          </button>
+          <button
+            onClick={() => scrollToSection("experience")}
+            className="text-[15px] font-medium hover:text-blue-400 transition"
+          >
+            Experience
+          </button>
+          <button
+            onClick={() => scrollToSection("skills")}
+            className="text-[15px] font-medium hover:text-blue-400 transition"
+          >
+            Skills
+          </button>
+          <button
+            onClick={() => scrollToSection("projects")}
+            className="text-[15px] font-medium hover:text-blue-400 transition"
+          >
+            Projects
+          </button>
+          <button
+            onClick={() => scrollToSection("contact")}
+            className="text-[15px] font-medium hover:text-blue-400 transition"
+          >
+            Contact
+          </button>
+
+          {/* Divider */}
+          <div className="h-6 w-px bg-white/20" />
+
+          {/* Social icons */}
+          <div className="flex items-center gap-4">
+            <a
+              href="https://wa.me/50686488688"
+              target="_blank"
+              rel="noreferrer"
+              className="text-[var(--foreground)]/60 hover:text-blue-400 transition"
+              aria-label="WhatsApp"
             >
-              Navigation
-            </button>
-            <AnimatePresence>
-              {navOpen && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9, y: -6 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.9, y: -6 }}
-                  transition={{ duration: 0.15, ease: "easeOut" }}
-                  className="absolute top-full mt-2 left-1/2 -translate-x-1/2 w-44 backdrop-blur-xl bg-[rgba(var(--background-rgb),0.85)] border border-white/10 rounded-lg py-2 z-50"
-                >
-                  <button
-                    onClick={() => scrollToSection("home")}
-                    className="block w-full text-left px-4 py-2 text-sm hover:text-blue-400 transition"
-                  >
-                    Home
-                  </button>
-                  <button
-                    onClick={() => scrollToSection("experience")}
-                    className="block w-full text-left px-4 py-2 text-sm hover:text-blue-400 transition"
-                  >
-                    Experience
-                  </button>
-                  <button
-                    onClick={() => scrollToSection("skills")}
-                    className="block w-full text-left px-4 py-2 text-sm hover:text-blue-400 transition"
-                  >
-                    Skills
-                  </button>
-                  <button
-                    onClick={() => scrollToSection("projects")}
-                    className="block w-full text-left px-4 py-2 text-sm hover:text-blue-400 transition"
-                  >
-                    Projects
-                  </button>
-                  <button
-                    onClick={() => scrollToSection("contact")}
-                    className="block w-full text-left px-4 py-2 text-sm hover:text-blue-400 transition"
-                  >
-                    Contact
-                  </button>
-                </motion.div>
-              )}
-            </AnimatePresence>
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+              </svg>
+            </a>
+            <a
+              href="https://instagram.com/jonathan.cordova.r"
+              target="_blank"
+              rel="noreferrer"
+              className="text-[var(--foreground)]/60 hover:text-blue-400 transition"
+              aria-label="Instagram"
+            >
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+            </a>
+            <a
+              href="https://github.com/JamesPicado"
+              target="_blank"
+              rel="noreferrer"
+              className="text-[var(--foreground)]/60 hover:text-blue-400 transition"
+              aria-label="GitHub"
+            >
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+            </a>
+            <a
+              href="https://linkedin.com/in/jamespicado"
+              target="_blank"
+              rel="noreferrer"
+              className="text-[var(--foreground)]/60 hover:text-blue-400 transition"
+              aria-label="LinkedIn"
+            >
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+            </a>
           </div>
 
-          {/* Social dropdown */}
-          <div className="relative">
-            <button
-              className="text-[15px] font-medium hover:text-blue-400 transition"
-              onClick={() => {
-                setSocialOpen((prev) => !prev);
-                setNavOpen(false);
-              }}
-            >
-              Social
-            </button>
-            <AnimatePresence>
-              {socialOpen && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9, y: -6 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.9, y: -6 }}
-                  transition={{ duration: 0.15, ease: "easeOut" }}
-                  className="absolute top-full mt-2 left-1/2 -translate-x-1/2 w-44 backdrop-blur-xl bg-[rgba(var(--background-rgb),0.85)] border border-white/10 rounded-lg py-2 z-50"
-                >
-                  <a
-                    href="https://wa.me/50600000000"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="block px-4 py-2 text-sm hover:text-blue-400 transition"
-                  >
-                    WhatsApp
-                  </a>
-                  <a
-                    href="https://instagram.com/tuusuario"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="block px-4 py-2 text-sm hover:text-blue-400 transition"
-                  >
-                    Instagram
-                  </a>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+          {/* Divider */}
+          <div className="h-6 w-px bg-white/20" />
 
           {/* Theme toggle */}
           {themeReady ? (
             <button
               onClick={() => setThemeMode((prev) => (prev === "dark" ? "light" : "dark"))}
-              className="relative flex items-center gap-2 rounded-full border border-white/15 bg-[rgba(var(--background-rgb),0.35)] px-4 py-2 shadow-[0_0_20px_rgba(0,0,0,0.35)] transition hover:border-white/30"
+              className="relative flex items-center gap-2 transition hover:opacity-80"
               aria-label="Toggle theme"
             >
               <span
-                className={`flex h-8 w-8 items-center justify-center rounded-full text-xl transition ${
-                  themeMode === "dark" ? "bg-yellow-300/20 text-yellow-200" : "text-[var(--foreground)]/50"
+                className={`flex items-center justify-center text-lg transition ${
+                  themeMode === "dark" ? "text-yellow-200" : "text-[var(--foreground)]/40"
                 }`}
               >
                 ☾
               </span>
               <span
-                className={`flex h-8 w-8 items-center justify-center rounded-full text-xl transition ${
-                  themeMode === "light" ? "bg-yellow-300/30 text-yellow-500" : "text-[var(--foreground)]/50"
+                className={`flex items-center justify-center text-lg transition ${
+                  themeMode === "light" ? "text-yellow-500" : "text-[var(--foreground)]/40"
                 }`}
               >
                 ☀
               </span>
             </button>
           ) : (
-            <div className="relative flex items-center gap-2 rounded-full border border-white/15 bg-[rgba(var(--background-rgb),0.35)] px-4 py-2 opacity-40 pointer-events-none">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full text-xl">☾</span>
-              <span className="flex h-8 w-8 items-center justify-center rounded-full text-xl">☀</span>
+            <div className="relative flex items-center gap-2 opacity-40 pointer-events-none">
+              <span className="flex items-center justify-center text-lg">☾</span>
+              <span className="flex items-center justify-center text-lg">☀</span>
             </div>
           )}
         </div>
@@ -635,48 +617,111 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* SKILLS SECTION: animated photo gallery */}
-      <section id="skills" className="relative z-10 w-full min-h-screen bg-[var(--background)] text-[var(--foreground)] px-0 py-24 overflow-hidden">
-        <div className="space-y-12">
-          <div className="text-center space-y-4 px-4 sm:px-6">
+      {/* SKILLS SECTION: grid photo gallery */}
+      <section id="skills" className="relative z-10 w-full min-h-screen bg-[var(--background)] text-[var(--foreground)] px-4 sm:px-6 py-24">
+        <div className="max-w-7xl mx-auto space-y-12">
+          <div className="text-center space-y-4">
             <p className="text-xs uppercase tracking-[0.5em] text-[var(--foreground)]/60">Photography</p>
-            <h2 className="text-4xl font-extrabold">Dynamic Gallery</h2>
+            <h2 className="text-4xl font-extrabold">Gallery</h2>
             <p className="text-sm text-[var(--foreground)]/75 max-w-3xl mx-auto">
-             Photography production for tourism, etc.
+             Professional photography by{" "}
+             <a 
+               href="https://www.pexels.com/@jonathan-cordova-r-2637981/" 
+               target="_blank" 
+               rel="noopener noreferrer"
+               className="text-blue-400 hover:text-blue-300 transition"
+             >
+               Jonathan Cordova R.
+             </a>
             </p>
           </div>
 
-          <div className="space-y-10">
-            {SKILL_GALLERY_ROWS.map((row, rowIdx) => {
-              const animation = row.direction === "left" ? GALLERY_SCROLL_FRAMES.left : GALLERY_SCROLL_FRAMES.right;
-              const trackClass = `flex w-max gap-6 sm:gap-8 ${row.direction === "right" ? "flex-row-reverse" : ""}`;
-              return (
-                <div
-                  key={rowIdx}
-                  className="relative overflow-hidden rounded-[32px] border border-white/10 bg-[rgba(var(--background-rgb),0.25)] p-4 shadow-[0_25px_70px_rgba(0,0,0,0.45)] sm:rounded-[50px] sm:p-6 lg:rounded-[80px] lg:p-8"
+          <motion.div 
+            className="space-y-6"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            variants={{
+              hidden: {},
+              visible: {
+                transition: {
+                  staggerChildren: 0.08,
+                },
+              },
+            }}
+          >
+            {/* Primera fila - 3 fotos */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
+              {GALLERY_IMAGES.slice(0, 3).map((image, idx) => (
+                <motion.button
+                  key={`${image.src}-${idx}`}
+                  type="button"
+                  onClick={() => setGalleryModal({ src: image.src, alt: image.alt })}
+                  variants={{
+                    hidden: { opacity: 0, scale: 0.9, y: 20 },
+                    visible: { 
+                      opacity: 1, 
+                      scale: 1, 
+                      y: 0,
+                      transition: { duration: 0.5, ease: "easeOut" }
+                    },
+                  }}
+                  className="group relative overflow-hidden rounded-2xl border border-white/10 bg-black/20 shadow-lg transition-all duration-300 hover:shadow-2xl hover:border-white/30 hover:-translate-y-1"
+                  style={{
+                    aspectRatio: "1/1",
+                  }}
                 >
-                  <motion.div
-                    className={trackClass}
-                    animate={{ x: animation }}
-                    transition={{ duration: GALLERY_SCROLL_DURATION, repeat: Infinity, repeatType: "loop", ease: "linear" }}
-                  >
-                    {[...row.images, ...row.images].map((image, idx) => (
-                      <button
-                        key={`${image.src}-${idx}`}
-                        type="button"
-                        onClick={() => setGalleryModal({ src: image.src, alt: image.alt })}
-                        className="relative h-[16rem] w-[85vw] flex-shrink-0 overflow-hidden rounded-[32px] border border-white/15 bg-black/20 shadow-[0_25px_80px_rgba(0,0,0,0.45)] transition hover:-translate-y-1 hover:border-white/40 sm:h-[20rem] sm:w-[28rem] lg:h-[22rem] lg:w-[32rem] lg:rounded-[48px]"
-                      >
-                        <img src={image.src} alt={image.alt} className="h-full w-full object-cover" loading="lazy" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent opacity-80" />
-                        <span className="absolute bottom-5 left-6 text-[12px] uppercase tracking-[0.4em] text-white/85">{image.alt}</span>
-                      </button>
-                    ))}
-                  </motion.div>
-                </div>
-              );
-            })}
-          </div>
+                  <img 
+                    src={image.src} 
+                    alt={image.alt} 
+                    className={`h-full w-full transition-transform duration-700 group-hover:scale-110 ${
+                      idx === 0 ? "object-cover object-bottom" : "object-cover"
+                    }`}
+                    loading="lazy" 
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                  <div className="absolute inset-x-0 bottom-0 p-4 translate-y-full transition-transform duration-300 group-hover:translate-y-0">
+                    <p className="text-xs text-white/90 font-medium line-clamp-2">{image.alt}</p>
+                  </div>
+                </motion.button>
+              ))}
+            </div>
+
+            {/* Segunda fila - 2 fotos */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
+              {GALLERY_IMAGES.slice(3, 5).map((image, idx) => (
+                <motion.button
+                  key={`${image.src}-${idx + 3}`}
+                  type="button"
+                  onClick={() => setGalleryModal({ src: image.src, alt: image.alt })}
+                  variants={{
+                    hidden: { opacity: 0, scale: 0.9, y: 20 },
+                    visible: { 
+                      opacity: 1, 
+                      scale: 1, 
+                      y: 0,
+                      transition: { duration: 0.5, ease: "easeOut" }
+                    },
+                  }}
+                  className="group relative overflow-hidden rounded-2xl border border-white/10 bg-black/20 shadow-lg transition-all duration-300 hover:shadow-2xl hover:border-white/30 hover:-translate-y-1"
+                  style={{
+                    aspectRatio: "1/1",
+                  }}
+                >
+                  <img 
+                    src={image.src} 
+                    alt={image.alt} 
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                    loading="lazy" 
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                  <div className="absolute inset-x-0 bottom-0 p-4 translate-y-full transition-transform duration-300 group-hover:translate-y-0">
+                    <p className="text-xs text-white/90 font-medium line-clamp-2">{image.alt}</p>
+                  </div>
+                </motion.button>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -823,23 +868,85 @@ export default function HomePage() {
       {galleryModal ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-6">
           <button className="absolute inset-0 cursor-default" onClick={() => setGalleryModal(null)} aria-label="Close gallery" />
-          <div className="relative z-10 max-w-6xl w-full">
-            <div className="flex justify-end mb-4">
+          
+          <div className="relative z-10 flex items-center gap-6">
+            {/* Flecha Izquierda */}
+            <button
+              type="button"
+              onClick={() => {
+                const currentIndex = GALLERY_IMAGES.findIndex(img => img.src === galleryModal.src);
+                const prevIndex = currentIndex === 0 ? GALLERY_IMAGES.length - 1 : currentIndex - 1;
+                setGalleryModal(GALLERY_IMAGES[prevIndex]);
+              }}
+              className="flex items-center justify-center h-10 w-10 text-white/60 hover:text-white text-3xl transition"
+              aria-label="Previous image"
+            >
+              ‹
+            </button>
+
+            {/* Card con imagen */}
+            <div className="relative inline-block overflow-hidden rounded-[24px] bg-black/40 backdrop-blur-xl border border-white/20 shadow-[0_40px_140px_rgba(0,0,0,0.7)]">
+              {/* Botón Close en esquina superior derecha */}
               <button
                 type="button"
                 onClick={() => setGalleryModal(null)}
-                className="rounded-full border border-white/40 px-4 py-1 text-sm uppercase tracking-[0.3em] text-white hover:border-white"
+                className="absolute top-4 right-4 z-20 flex items-center justify-center h-10 w-10 rounded-full border border-white/40 bg-white/10 hover:bg-white/20 text-white text-xl transition backdrop-blur-sm"
+                aria-label="Close gallery"
               >
-                Close
+                ✕
               </button>
+
+              <div className="p-6">
+                <img src={galleryModal.src} alt={galleryModal.alt} className="max-h-[70vh] w-auto object-contain" />
+              </div>
+              <div className="px-6 pb-6 text-center space-y-2">
+                <p className="text-[14px] uppercase tracking-[0.35em] text-white font-semibold">{galleryModal.alt}</p>
+                <p className="text-[11px] text-white/70">Photo by Jonathan Cordova R.</p>
+              </div>
             </div>
-            <div className="overflow-hidden rounded-[48px] border border-white/20 bg-black/40 shadow-[0_40px_140px_rgba(0,0,0,0.7)]">
-              <img src={galleryModal.src} alt={galleryModal.alt} className="w-full h-[70vh] object-cover" />
-              <p className="p-4 text-center text-[12px] uppercase tracking-[0.35em] text-white/80">{galleryModal.alt}</p>
-            </div>
+
+            {/* Flecha Derecha */}
+            <button
+              type="button"
+              onClick={() => {
+                const currentIndex = GALLERY_IMAGES.findIndex(img => img.src === galleryModal.src);
+                const nextIndex = currentIndex === GALLERY_IMAGES.length - 1 ? 0 : currentIndex + 1;
+                setGalleryModal(GALLERY_IMAGES[nextIndex]);
+              }}
+              className="flex items-center justify-center h-10 w-10 text-white/60 hover:text-white text-3xl transition"
+              aria-label="Next image"
+            >
+              ›
+            </button>
           </div>
         </div>
       ) : null}
+
+      {/* Scroll to Top Button */}
+      <AnimatePresence>
+        {showScrollTop && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 20 }}
+            transition={{ duration: 0.2 }}
+            onClick={scrollToTop}
+            className="fixed bottom-8 right-8 z-40 flex items-center justify-center h-12 w-12 rounded-full bg-blue-600/90 hover:bg-blue-600 text-white shadow-lg backdrop-blur-sm transition-colors"
+            aria-label="Scroll to top"
+          >
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              strokeWidth={2.5} 
+              stroke="currentColor" 
+              className="w-6 h-6"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+            </svg>
+          </motion.button>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
