@@ -222,13 +222,6 @@ const ORBIT_GLOWS = [
   { left: "80%", top: "18%", size: 240, duration: 11, delay: 1, colors: ["rgba(99,102,241,0.32)", "rgba(59,130,246,0.1)"] },
 ] as const;
 
-const STREAKS: never[] = [];
-
-const HERO_TEXT_SEGMENTS = [
-  { text: "Java and React/Next.js ", className: "text-[var(--foreground)]" },
-  { text: "developer", className: "text-blue-500" },
-] as const;
-
 export default function HomePage() {
   const [navOpen, setNavOpen] = useState(false);
   const [socialOpen, setSocialOpen] = useState(false);
@@ -412,15 +405,6 @@ export default function HomePage() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const scrollToSection = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-      setNavOpen(false);
-      setSocialOpen(false);
-    }
-  };
-  let letterCounter = 0;
   return (
     <div className="relative min-h-screen w-full bg-[var(--background)] text-[var(--foreground)]">
       {siteKey && (
