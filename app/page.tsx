@@ -732,7 +732,7 @@ export default function HomePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 0.45, delay: index * 0.05 }}
-                className="group relative overflow-hidden rounded-[28px] border border-white/10 bg-[rgba(var(--background-rgb),0.78)] p-6 md:p-8 shadow-[0_25px_80px_rgba(0,0,0,0.35)]"
+                className="group card-surface relative overflow-hidden rounded-[28px] p-6 md:p-8"
               >
                 <div className="absolute inset-0 opacity-50 group-hover:opacity-80 transition duration-300">
                   <div className={`absolute inset-[1px] rounded-[26px] bg-gradient-to-br ${exp.accent} blur-3xl`} />
@@ -912,7 +912,7 @@ export default function HomePage() {
                 <motion.article
                   key={project.title}
                   variants={PROJECT_CARD_VARIANTS}
-                  className="group flex h-full flex-col gap-6 rounded-[32px] border border-white/15 p-6 transition duration-300 hover:border-white/45 hover:bg-[rgba(var(--background-rgb),0.25)]"
+                  className="group card-surface flex h-full flex-col gap-6 rounded-[32px] p-6"
                 >
                   <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-[rgba(var(--background-rgb),0.35)] shadow-[0_10px_45px_rgba(0,0,0,0.35)] transition duration-500 group-hover:-translate-y-1 group-hover:border-white/40">
                     <div className="relative aspect-[4/3] w-full">
@@ -969,7 +969,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <form onSubmit={submitContactForm} className="space-y-6 bg-[rgba(var(--background-rgb),0.4)] border border-white/10 rounded-[36px] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
+          <form onSubmit={submitContactForm} className="card-surface space-y-6 rounded-[36px] p-6">
             <label className="block text-sm font-semibold uppercase tracking-[0.3em] text-[var(--foreground)]/70">
               Name
               <input
@@ -1135,6 +1135,19 @@ export default function HomePage() {
           </motion.button>
         )}
       </AnimatePresence>
+      <style jsx global>{`
+        .grecaptcha-badge {
+          transform: scale(0.72);
+          transform-origin: 100% 100%;
+          bottom: 12px !important;
+          right: 12px !important;
+        }
+        @media (max-width: 640px) {
+          .grecaptcha-badge {
+            transform: scale(0.6);
+          }
+        }
+      `}</style>
     </div>
   );
 }
