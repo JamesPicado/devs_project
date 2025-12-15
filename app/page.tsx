@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
+import Script from "next/script";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Services from "./components/Services";
@@ -20,6 +21,7 @@ const ORBIT_GLOWS = [
 
 export default function HomePage() {
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? "";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,6 +38,9 @@ export default function HomePage() {
 
   return (
     <div className="relative min-h-screen w-full bg-[var(--background)] text-[var(--foreground)]">
+      {siteKey && (
+        <Script src={`https://www.google.com/recaptcha/api.js?render=${siteKey}`} strategy="afterInteractive" />
+      )}
       {/* Subtle dot background */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle,var(--dot-color)_1.4px,transparent_1.4px)] bg-[length:14px_14px] opacity-45" />
 

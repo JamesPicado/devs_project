@@ -2,6 +2,15 @@
 
 import { useState, useEffect } from "react";
 
+declare global {
+  interface Window {
+    grecaptcha?: {
+      ready: (cb: () => void) => void;
+      execute: (siteKey: string, options: { action: string }) => Promise<string>;
+    };
+  }
+}
+
 type CountryOption = { code: string; name: string; dial: string; flag: string };
 
 const DEFAULT_COUNTRIES: readonly CountryOption[] = [
@@ -12,10 +21,13 @@ const DEFAULT_COUNTRIES: readonly CountryOption[] = [
   { code: "CO", name: "Colombia", dial: "+57", flag: "🇨🇴" },
 ] as const;
 
+const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? "";
+
 export default function Contact() {
   const [contactForm, setContactForm] = useState({ name: "", email: "", country: "CR", phone: "", message: "" });
   const [countryOptions, setCountryOptions] = useState(Array.from(DEFAULT_COUNTRIES));
   const [contactStatus, setContactStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [captchaReady, setCaptchaReady] = useState(!siteKey);
 
   const selectedCountry = countryOptions.find((country) => country.code === contactForm.country);
 
@@ -59,14 +71,52 @@ export default function Contact() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!siteKey) {
+      setCaptchaReady(true);
+      return;
+    }
+    let interval: NodeJS.Timeout | null = null;
+    const checkCaptcha = () => {
+      if (typeof window === "undefined") return;
+      if (window.grecaptcha) {
+        window.grecaptcha.ready(() => setCaptchaReady(true));
+        if (interval) clearInterval(interval);
+      }
+    };
+    checkCaptcha();
+    interval = setInterval(checkCaptcha, 500);
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, []);
+
   const submitContactForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (contactStatus === "sending") return;
     setContactStatus("sending");
+    let recaptchaToken = "";
+    if (siteKey) {
+      if (typeof window === "undefined" || !window.grecaptcha) {
+        setContactStatus("error");
+        return;
+      }
+      try {
+        await new Promise<void>((resolve) => {
+          window.grecaptcha?.ready(() => resolve());
+        });
+        recaptchaToken = await window.grecaptcha.execute(siteKey, { action: "contact" });
+      } catch (error) {
+        console.error("reCAPTCHA error", error);
+        setContactStatus("error");
+        return;
+      }
+    }
     const countryInfo = countryOptions.find((country) => country.code === contactForm.country);
     const payload = {
       ...contactForm,
       country: countryInfo ? `${countryInfo.flag} ${countryInfo.name} (${countryInfo.dial})` : contactForm.country,
+      recaptchaToken,
     };
     try {
       const res = await fetch("/api/contact", {
@@ -94,7 +144,11 @@ export default function Contact() {
           </p>
         </div>
 
-        <form onSubmit={submitContactForm} className="space-y-6 bg-[rgba(var(--background-rgb),0.4)] border border-white/10 rounded-[36px] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
+        <form
+          onSubmit={submitContactForm}
+          className="contact-border space-y-6 rounded-[36px] border border-transparent bg-[var(--contact-form-bg)] p-6 shadow-none backdrop-blur-xl"
+          style={{ boxShadow: "0 25px 55px rgba(15,15,15,0.12)" }}
+        >
           <label className="block text-sm font-semibold uppercase tracking-[0.3em] text-[var(--foreground)]/70">
             Name
             <input
@@ -102,7 +156,7 @@ export default function Contact() {
               required
               value={contactForm.name}
               onChange={(e) => updateContactForm("name", e.target.value)}
-              className="mt-2 w-full rounded-2xl border border-white/10 bg-[rgba(var(--background-rgb),0.35)] px-4 py-3 text-base text-[var(--foreground)] placeholder:text-[var(--foreground)]/40 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-2 w-full rounded-2xl border border-[var(--input-border)] bg-[var(--input-bg)] px-4 py-3 text-base text-[var(--foreground)] placeholder:text-[var(--input-placeholder)] transition focus:outline-none focus:ring-2 focus:ring-[var(--input-focus-ring)] focus:ring-offset-2 focus:ring-offset-[var(--background)]"
               placeholder="What is your name?"
             />
           </label>
@@ -114,7 +168,7 @@ export default function Contact() {
               required
               value={contactForm.email}
               onChange={(e) => updateContactForm("email", e.target.value)}
-              className="mt-2 w-full rounded-2xl border border-white/10 bg-[rgba(var(--background-rgb),0.35)] px-4 py-3 text-base text-[var(--foreground)] placeholder:text-[var(--foreground)]/40 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-2 w-full rounded-2xl border border-[var(--input-border)] bg-[var(--input-bg)] px-4 py-3 text-base text-[var(--foreground)] placeholder:text-[var(--input-placeholder)] transition focus:outline-none focus:ring-2 focus:ring-[var(--input-focus-ring)] focus:ring-offset-2 focus:ring-offset-[var(--background)]"
               placeholder="email@email.com"
             />
           </label>
@@ -126,7 +180,7 @@ export default function Contact() {
                 <select
                   value={contactForm.country}
                   onChange={(e) => updateContactForm("country", e.target.value)}
-                  className="w-full appearance-none rounded-2xl border border-white/10 bg-[rgba(var(--background-rgb),0.35)] pr-10 pl-4 py-3 text-base text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full appearance-none rounded-2xl border border-[var(--input-border)] bg-[var(--input-bg)] pr-10 pl-4 py-3 text-base text-[var(--foreground)] transition focus:outline-none focus:ring-2 focus:ring-[var(--input-focus-ring)] focus:ring-offset-2 focus:ring-offset-[var(--background)]"
                 >
                   <option value="">Select country</option>
                   {countryOptions.map((country) => (
@@ -135,13 +189,13 @@ export default function Contact() {
                     </option>
                   ))}
                 </select>
-                <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-[var(--foreground)]/60">▾</span>
+                <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-[var(--input-placeholder)]">▾</span>
               </div>
               <input
                 type="tel"
                 value={contactForm.phone}
                 onChange={(e) => updateContactForm("phone", e.target.value)}
-                className="flex-1 rounded-2xl border border-white/10 bg-[rgba(var(--background-rgb),0.35)] px-4 py-3 text-base text-[var(--foreground)] placeholder:text-[var(--foreground)]/40 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="flex-1 rounded-2xl border border-[var(--input-border)] bg-[var(--input-bg)] px-4 py-3 text-base text-[var(--foreground)] placeholder:text-[var(--input-placeholder)] transition focus:outline-none focus:ring-2 focus:ring-[var(--input-focus-ring)] focus:ring-offset-2 focus:ring-offset-[var(--background)]"
                 placeholder={selectedCountry ? `${selectedCountry.dial} 0000-0000` : "+000 0000-0000"}
               />
             </div>
@@ -154,7 +208,7 @@ export default function Contact() {
               rows={5}
               value={contactForm.message}
               onChange={(e) => updateContactForm("message", e.target.value)}
-              className="mt-2 w-full rounded-2xl border border-white/10 bg-[rgba(var(--background-rgb),0.35)] px-4 py-3 text-base text-[var(--foreground)] placeholder:text-[var(--foreground)]/40 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+              className="mt-2 w-full rounded-2xl border border-[var(--input-border)] bg-[var(--input-bg)] px-4 py-3 text-base text-[var(--foreground)] placeholder:text-[var(--input-placeholder)] transition focus:outline-none focus:ring-2 focus:ring-[var(--input-focus-ring)] focus:ring-offset-2 focus:ring-offset-[var(--background)] resize-none"
               placeholder="Tell me about your project..."
             />
           </label>
@@ -162,7 +216,7 @@ export default function Contact() {
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <button
               type="submit"
-              disabled={contactStatus === "sending"}
+              disabled={contactStatus === "sending" || (Boolean(siteKey) && !captchaReady)}
               className="rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:bg-blue-400"
             >
               {contactStatus === "sending" ? "Sending..." : "Send"}
@@ -170,6 +224,9 @@ export default function Contact() {
 
             {contactStatus === "success" && <p className="text-sm text-emerald-400">Message sent successfully.</p>}
             {contactStatus === "error" && <p className="text-sm text-red-400">An error occurred. Please try again.</p>}
+            {siteKey && !captchaReady && contactStatus !== "error" && (
+              <p className="text-sm text-[var(--foreground)]/60">Activating bot protection...</p>
+            )}
           </div>
         </form>
       </div>
