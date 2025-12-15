@@ -144,7 +144,11 @@ export default function Contact() {
           </p>
         </div>
 
-        <form onSubmit={submitContactForm} className="space-y-6 bg-[rgba(var(--background-rgb),0.4)] border border-white/10 rounded-[36px] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
+        <form
+          onSubmit={submitContactForm}
+          className="contact-border space-y-6 rounded-[36px] border border-transparent bg-[var(--contact-form-bg)] p-6 shadow-none backdrop-blur-xl"
+          style={{ boxShadow: "0 25px 55px rgba(15,15,15,0.12)" }}
+        >
           <label className="block text-sm font-semibold uppercase tracking-[0.3em] text-[var(--foreground)]/70">
             Name
             <input
@@ -152,7 +156,7 @@ export default function Contact() {
               required
               value={contactForm.name}
               onChange={(e) => updateContactForm("name", e.target.value)}
-              className="mt-2 w-full rounded-2xl border border-white/10 bg-[rgba(var(--background-rgb),0.35)] px-4 py-3 text-base text-[var(--foreground)] placeholder:text-[var(--foreground)]/40 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-2 w-full rounded-2xl border border-[var(--input-border)] bg-[var(--input-bg)] px-4 py-3 text-base text-[var(--foreground)] placeholder:text-[var(--input-placeholder)] transition focus:outline-none focus:ring-2 focus:ring-[var(--input-focus-ring)] focus:ring-offset-2 focus:ring-offset-[var(--background)]"
               placeholder="What is your name?"
             />
           </label>
@@ -164,7 +168,7 @@ export default function Contact() {
               required
               value={contactForm.email}
               onChange={(e) => updateContactForm("email", e.target.value)}
-              className="mt-2 w-full rounded-2xl border border-white/10 bg-[rgba(var(--background-rgb),0.35)] px-4 py-3 text-base text-[var(--foreground)] placeholder:text-[var(--foreground)]/40 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-2 w-full rounded-2xl border border-[var(--input-border)] bg-[var(--input-bg)] px-4 py-3 text-base text-[var(--foreground)] placeholder:text-[var(--input-placeholder)] transition focus:outline-none focus:ring-2 focus:ring-[var(--input-focus-ring)] focus:ring-offset-2 focus:ring-offset-[var(--background)]"
               placeholder="email@email.com"
             />
           </label>
@@ -176,7 +180,7 @@ export default function Contact() {
                 <select
                   value={contactForm.country}
                   onChange={(e) => updateContactForm("country", e.target.value)}
-                  className="w-full appearance-none rounded-2xl border border-white/10 bg-[rgba(var(--background-rgb),0.35)] pr-10 pl-4 py-3 text-base text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full appearance-none rounded-2xl border border-[var(--input-border)] bg-[var(--input-bg)] pr-10 pl-4 py-3 text-base text-[var(--foreground)] transition focus:outline-none focus:ring-2 focus:ring-[var(--input-focus-ring)] focus:ring-offset-2 focus:ring-offset-[var(--background)]"
                 >
                   <option value="">Select country</option>
                   {countryOptions.map((country) => (
@@ -185,13 +189,13 @@ export default function Contact() {
                     </option>
                   ))}
                 </select>
-                <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-[var(--foreground)]/60">▾</span>
+                <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-[var(--input-placeholder)]">▾</span>
               </div>
               <input
                 type="tel"
                 value={contactForm.phone}
                 onChange={(e) => updateContactForm("phone", e.target.value)}
-                className="flex-1 rounded-2xl border border-white/10 bg-[rgba(var(--background-rgb),0.35)] px-4 py-3 text-base text-[var(--foreground)] placeholder:text-[var(--foreground)]/40 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="flex-1 rounded-2xl border border-[var(--input-border)] bg-[var(--input-bg)] px-4 py-3 text-base text-[var(--foreground)] placeholder:text-[var(--input-placeholder)] transition focus:outline-none focus:ring-2 focus:ring-[var(--input-focus-ring)] focus:ring-offset-2 focus:ring-offset-[var(--background)]"
                 placeholder={selectedCountry ? `${selectedCountry.dial} 0000-0000` : "+000 0000-0000"}
               />
             </div>
@@ -204,7 +208,7 @@ export default function Contact() {
               rows={5}
               value={contactForm.message}
               onChange={(e) => updateContactForm("message", e.target.value)}
-              className="mt-2 w-full rounded-2xl border border-white/10 bg-[rgba(var(--background-rgb),0.35)] px-4 py-3 text-base text-[var(--foreground)] placeholder:text-[var(--foreground)]/40 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+              className="mt-2 w-full rounded-2xl border border-[var(--input-border)] bg-[var(--input-bg)] px-4 py-3 text-base text-[var(--foreground)] placeholder:text-[var(--input-placeholder)] transition focus:outline-none focus:ring-2 focus:ring-[var(--input-focus-ring)] focus:ring-offset-2 focus:ring-offset-[var(--background)] resize-none"
               placeholder="Tell me about your project..."
             />
           </label>

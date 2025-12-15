@@ -105,14 +105,15 @@ export default function Projects() {
               <motion.article
                 key={project.title}
                 variants={PROJECT_CARD_VARIANTS}
-                className="group flex h-full flex-col gap-6 rounded-[32px] border border-white/15 p-6 transition duration-300 hover:border-white/45 hover:bg-[rgba(var(--background-rgb),0.25)]"
+                className="group flex h-full flex-col gap-6 rounded-[32px] border border-[var(--card-border)] bg-[var(--card-background)] p-6 transition duration-300 backdrop-blur-xl hover:border-[var(--card-border-hover)] hover:bg-[var(--card-background-hover)]"
+                style={{ boxShadow: "var(--card-shadow)" }}
               >
-                <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-[rgba(var(--background-rgb),0.35)] shadow-[0_10px_45px_rgba(0,0,0,0.35)] transition duration-500 group-hover:-translate-y-1 group-hover:border-white/40">
+                <div className="relative overflow-hidden rounded-[28px] border border-[var(--card-border)] bg-[rgba(var(--background-rgb),0.32)] transition duration-500 group-hover:-translate-y-1 group-hover:border-[var(--card-border-hover)]" style={{ boxShadow: "var(--card-shadow)" }}>
                   <div className="relative aspect-[4/3] w-full">
                     <img src={project.image} alt={project.imageAlt} loading="lazy" className="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
                     <div className={`absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-70 bg-gradient-to-br ${project.accent}`} />
                   </div>
-                  <div className="absolute inset-4 rounded-[20px] border border-white/25 opacity-0 transition duration-500 group-hover:opacity-80" />
+                  <div className="absolute inset-4 rounded-[20px] border border-[var(--card-border-hover)] opacity-0 transition duration-500 group-hover:opacity-80" />
                 </div>
 
                 <div className="flex flex-1 flex-col gap-3 px-1">
@@ -122,7 +123,7 @@ export default function Projects() {
 
                   <div className="flex flex-wrap gap-2 pt-3 text-[10px] uppercase tracking-[0.35em] text-[var(--foreground)]/70">
                     {project.stack.map((tech) => (
-                      <span key={tech} className="rounded-full border border-white/15 bg-white/5 px-3 py-1">
+                      <span key={tech} className="rounded-full border border-[var(--chip-border)] bg-[var(--chip-background)] px-3 py-1 text-[var(--chip-text)]">
                         {tech}
                       </span>
                     ))}
