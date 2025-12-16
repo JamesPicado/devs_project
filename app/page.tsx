@@ -91,7 +91,7 @@ export default function HomePage() {
       <Hero />
       <Services />
       <Projects />
-      <Experience />
+      {/* <Experience /> */}
       <Skills />
       <Contact />
 

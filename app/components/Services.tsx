@@ -73,7 +73,7 @@ const itemVariants = {
 
 export default function Services() {
   return (
-    <section className="relative z-10 py-24 px-4 sm:px-6">
+    <section id="services" className="relative z-10 py-24 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
         <motion.div
            initial={{ opacity: 0, y: -20 }}
@@ -86,7 +86,7 @@ export default function Services() {
             Our Services
           </h2>
           <p className="text-[var(--foreground)]/70 max-w-2xl mx-auto text-lg">
-            Comprehensive solutions tailored to elevate your digital presence.
+            Designing and developing digital solutions tailored to any need, from interfaces and websites to applications and enterprise systems, including visual content, optimization, and continuous support.
           </p>
         </motion.div>
 

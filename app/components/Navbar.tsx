@@ -50,13 +50,7 @@ export default function Navbar() {
         ref={navRef}
       >
         <div className="backdrop-blur-xl bg-[rgba(var(--background-rgb),0.65)] border border-white/10 text-sm px-4 lg:px-10 py-4 rounded-full flex items-center justify-between lg:justify-center gap-3 lg:gap-6 shadow-[0_0_20px_rgba(0,0,0,0.4)] relative w-full lg:w-auto">
-          {/* Logo/Brand - visible on mobile */}
-          <button
-            onClick={() => scrollToSection("home")}
-            className="text-[15px] font-bold hover:text-blue-400 transition lg:hidden"
-          >
-            JP
-          </button>
+
 
           {/* Hamburger button - only visible on mobile */}
           <button
@@ -76,6 +70,12 @@ export default function Navbar() {
               className="text-[15px] font-medium hover:text-blue-400 transition"
             >
               Home
+            </button>
+            <button
+              onClick={() => scrollToSection("services")}
+              className="text-[15px] font-medium hover:text-blue-400 transition"
+            >
+              Services
             </button>
             <button
               onClick={() => scrollToSection("projects")}
@@ -256,6 +256,12 @@ export default function Navbar() {
                     className="text-left text-base font-medium hover:text-blue-400 transition py-2 border-b border-white/10"
                   >
                     Home
+                  </button>
+                  <button
+                    onClick={() => scrollToSection("services")}
+                    className="text-left text-base font-medium hover:text-blue-400 transition py-2 border-b border-white/10"
+                  >
+                    Services
                   </button>
                   <button
                     onClick={() => scrollToSection("projects")}

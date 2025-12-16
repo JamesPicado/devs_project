@@ -45,6 +45,9 @@ export default function NavigationMenu() {
             <button className="py-1.5 text-sm hover:text-blue-400" onClick={() => scrollToSection("home")}>
               Home
             </button>
+            <button className="py-1.5 text-sm hover:text-blue-400" onClick={() => scrollToSection("services")}>
+              Services
+            </button>
             <button className="py-1.5 text-sm hover:text-blue-400" onClick={() => scrollToSection("experience")}>
               Experience
             </button>

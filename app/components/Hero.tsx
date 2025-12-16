@@ -63,7 +63,7 @@ export default function Hero() {
             return (
               <span
                 key={`${segmentIdx}-${textCycle}`}
-                className={`whitespace-pre ${segment.className}`}
+                className={`whitespace-normal ${segment.className}`}
               >
                 {rendered}
               </span>
