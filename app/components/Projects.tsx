@@ -15,40 +15,25 @@ const PROJECTS = [
       "Set up streaming data sync jobs that hydrate insights dashboards in seconds instead of hours.",
       "Partnered with product to prototype new coaching tools, compressing release cycles from weeks to days.",
     ],
-    stack: ["Next.js", "React Query", "Node.js", "PostgreSQL", "AWS", "Tailwind"],
+    stack: ["Next.js", "React Query", "Node.js", "Tailwind"],
     link: "https://temcousa.com",
     accent: "from-blue-500/40 via-cyan-400/20 to-transparent",
   },
-  {
-    title: "Restaurante Costa Rica",
-    role: "Full-Stack Engineer · Atlantbh",
-    image: "/img_projects/analytics-control-room.png",
-    imageAlt: "Analytics dashboard mockup with charts and KPIs",
-    description:
-      "Designed a modern website for a restaurant, focusing on elegance and usability. Includes an interactive digital menu, reservation system, dish gallery, chef section, and dynamic customer reviews.",
-    highlights: [
-      "Interactive digital menu: Smooth navigation with high-quality images, prices, and dish descriptions.",
-      "Reservation system: Integration of a dynamic form allowing real-time table booking.",
-      "Dynamic gallery: Optimized photo carousel with smooth animations and lazy loading.",
-    ],
-    stack: ["Next.js", "React", "Tailwind CSS", "Framer Motion"],
-    link: "",
-    accent: "from-indigo-500/40 via-purple-500/20 to-transparent",
-  },
+  
   {
     title: "Gym Costa Rica",
-    role: "Full-Stack Engineer · Atlantbh",
-    image: "/img_projects/temcousa.png",
-    imageAlt: "Analytics dashboard mockup with charts and KPIs",
+    role: "Gym Information Website",
+    image: "/img_projects/gym.png",
+    imageAlt: "Information important to clients of gym",
     description:
-      "Designed a modern website for a restaurant, focusing on elegance and usability. Includes an interactive digital menu, reservation system, dish gallery, chef section, and dynamic customer reviews.",
+      "Gym Example is a modern, responsive website for gyms, designed to showcase services, training plans, and clear calls to action. Its professional, sporty design focuses on user experience and customer conversion while promoting a healthy lifestyle.",
     highlights: [
       "Interactive digital menu: Smooth navigation with high-quality images, prices, and dish descriptions.",
       "Reservation system: Integration of a dynamic form allowing real-time table booking.",
       "Dynamic gallery: Optimized photo carousel with smooth animations and lazy loading.",
     ],
-    stack: ["Next.js", "React", "Tailwind CSS", "Framer Motion"],
-    link: "",
+    stack: ["Next.js", "React Query", "Node.js", "Tailwind"],
+    link: "https://gymexample.vercel.app/#",
     accent: "from-indigo-500/40 via-purple-500/20 to-transparent",
   },
 ] as const;
