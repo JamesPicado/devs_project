@@ -83,17 +83,12 @@ export default function Navbar() {
             >
               Projects
             </button>
+
             <button
-              onClick={() => scrollToSection("experience")}
+              onClick={() => scrollToSection("gallery")}
               className="text-[15px] font-medium hover:text-blue-400 transition"
             >
-              Experience
-            </button>
-            <button
-              onClick={() => scrollToSection("skills")}
-              className="text-[15px] font-medium hover:text-blue-400 transition"
-            >
-              Skills
+              Gallery
             </button>
             <button
               onClick={() => scrollToSection("contact")}
@@ -269,17 +264,12 @@ export default function Navbar() {
                   >
                     Projects
                   </button>
+
                   <button
-                    onClick={() => scrollToSection("experience")}
+                    onClick={() => scrollToSection("gallery")}
                     className="text-left text-base font-medium hover:text-blue-400 transition py-2 border-b border-white/10"
                   >
-                    Experience
-                  </button>
-                  <button
-                    onClick={() => scrollToSection("skills")}
-                    className="text-left text-base font-medium hover:text-blue-400 transition py-2 border-b border-white/10"
-                  >
-                    Skills
+                    Gallery
                   </button>
                   <button
                     onClick={() => scrollToSection("contact")}

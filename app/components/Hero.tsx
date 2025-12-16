@@ -92,7 +92,10 @@ export default function Hero() {
         <p className="text-[var(--foreground)]/60">
           Interested? Let's start working together.
         </p>
-        <button className="bg-blue-700/50 backdrop-blur-md border border-blue-500/30 text-[var(--foreground)] px-8 py-3 rounded-full hover:bg-blue-700 hover:scale-105 transition-all duration-300">
+        <button
+          onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+          className="bg-blue-700/50 backdrop-blur-md border border-blue-500/30 text-[var(--foreground)] px-8 py-3 rounded-full hover:bg-blue-700 hover:scale-105 transition-all duration-300"
+        >
           Contact Us
         </button>
       </div>

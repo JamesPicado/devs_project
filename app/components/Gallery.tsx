@@ -11,12 +11,12 @@ const GALLERY_IMAGES = [
   { src: "/img_projects/DSC01698.jpg", alt: "Professional shot" },
 ] as const;
 
-export default function Skills() {
+export default function Gallery() {
   const [galleryModal, setGalleryModal] = useState<{ src: string; alt: string } | null>(null);
 
   return (
     <>
-      <section id="skills" className="relative z-10 w-full min-h-screen bg-[var(--background)] text-[var(--foreground)] px-4 sm:px-6 py-24">
+      <section id="gallery" className="relative z-10 w-full min-h-screen bg-[var(--background)] text-[var(--foreground)] px-4 sm:px-6 py-24">
         <div className="max-w-7xl mx-auto space-y-12">
           <div className="text-center space-y-4">
             <h2 className="text-4xl font-extrabold">Gallery</h2>
