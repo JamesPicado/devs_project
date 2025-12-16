@@ -84,7 +84,6 @@ export default function Projects() {
       </div>
 
       <div className="relative max-w-5xl mx-auto text-center space-y-4 pt-12">
-        <p className="text-xs uppercase tracking-[0.55em] text-[var(--foreground)]/60">Selected Work</p>
         <h2 className="text-4xl font-extrabold">Projects</h2>
         <p className="text-[var(--foreground)]/70 text-sm leading-relaxed">
           Every website I build is a completely unique project. I listen to what each client needs and transform those ideas into personalized, functional digital experiences aligned with the essence of their business.
