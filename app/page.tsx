@@ -41,54 +41,57 @@ export default function HomePage() {
       {siteKey && (
         <Script src={`https://www.google.com/recaptcha/api.js?render=${siteKey}`} strategy="afterInteractive" />
       )}
-      {/* Subtle dot background */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle,var(--dot-color)_1.4px,transparent_1.4px)] bg-[length:14px_14px] opacity-45" />
 
-      {/* Vertical animated lines */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        {ORBIT_GLOWS.map((glow) => (
+      <section className="relative isolate z-[200] min-h-screen w-full overflow-hidden">
+        {/* Subtle dot background */}
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle,var(--dot-color)_1.4px,transparent_1.4px)] bg-[length:14px_14px] opacity-45" />
+
+        {/* Vertical animated lines */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          {ORBIT_GLOWS.map((glow) => (
+            <motion.div
+              key={`${glow.left}-${glow.top}`}
+              className="absolute rounded-[999px] blur-3xl mix-blend-screen"
+              initial={{ scale: 0.9, y: "-12%" }}
+              animate={{ scale: 1.2, y: "14%" }}
+              transition={{
+                duration: glow.duration,
+                repeat: Infinity,
+                repeatType: "reverse",
+                ease: "easeInOut",
+                delay: glow.delay,
+              }}
+              style={{
+                left: glow.left,
+                top: glow.top,
+                width: glow.size,
+                height: glow.size,
+                background: `radial-gradient(circle, ${glow.colors[0]} 0%, ${glow.colors[1]} 60%, transparent 100%)`,
+                boxShadow: "0 0 40px rgba(14,165,233,0.15)",
+              }}
+            />
+          ))}
+
           <motion.div
-            key={`${glow.left}-${glow.top}`}
-            className="absolute rounded-[999px] blur-3xl mix-blend-screen"
-            initial={{ scale: 0.9, y: "-12%" }}
-            animate={{ scale: 1.2, y: "14%" }}
-            transition={{
-              duration: glow.duration,
-              repeat: Infinity,
-              repeatType: "reverse",
-              ease: "easeInOut",
-              delay: glow.delay,
-            }}
+            className="absolute left-1/2 top-[32%] -translate-x-1/2 rounded-full blur-[120px] mix-blend-screen"
+            initial={{ opacity: 0.2, scale: 0.95 }}
+            animate={{ opacity: 0.35, scale: 1.05 }}
+            transition={{ duration: 5, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
             style={{
-              left: glow.left,
-              top: glow.top,
-              width: glow.size,
-              height: glow.size,
-              background: `radial-gradient(circle, ${glow.colors[0]} 0%, ${glow.colors[1]} 60%, transparent 100%)`,
-              boxShadow: "0 0 40px rgba(14,165,233,0.15)",
+              width: 520,
+              height: 520,
+              background: "radial-gradient(circle, rgba(255,255,255,0.45) 0%, rgba(14,165,233,0.15) 45%, transparent 75%)",
             }}
           />
-        ))}
 
-        <motion.div
-          className="absolute left-1/2 top-[32%] -translate-x-1/2 rounded-full blur-[120px] mix-blend-screen"
-          initial={{ opacity: 0.2, scale: 0.95 }}
-          animate={{ opacity: 0.35, scale: 1.05 }}
-          transition={{ duration: 5, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
-          style={{
-            width: 520,
-            height: 520,
-            background: "radial-gradient(circle, rgba(255,255,255,0.45) 0%, rgba(14,165,233,0.15) 45%, transparent 75%)",
-          }}
-        />
-
-        <div className="absolute inset-0 rotate-[25deg] opacity-20">
-          <div className="w-full h-full bg-[radial-gradient(circle,rgba(255,255,255,0.08)_1px,transparent_1px)] bg-[length:120px_120px]" />
+          <div className="absolute inset-0 rotate-[25deg] opacity-20">
+            <div className="w-full h-full bg-[radial-gradient(circle,rgba(255,255,255,0.08)_1px,transparent_1px)] bg-[length:120px_120px]" />
+          </div>
         </div>
-      </div>
 
-      <Navbar />
-      <Hero />
+        <Navbar />
+        <Hero />
+      </section>
       <Services />
       <Projects />
       {/* <Experience /> */}

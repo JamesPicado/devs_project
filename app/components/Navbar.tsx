@@ -45,11 +45,8 @@ export default function Navbar() {
 
   return (
     <>
-      <div
-        className="w-full flex justify-center mt-0 mb-4 sticky top-0 z-20 bg-[rgba(var(--background-rgb),0.85)] backdrop-blur-md px-4"
-        ref={navRef}
-      >
-        <div className="backdrop-blur-xl bg-[rgba(var(--background-rgb),0.65)] border border-white/10 text-sm px-4 lg:px-10 py-4 rounded-full flex items-center justify-between lg:justify-center gap-3 lg:gap-6 shadow-[0_0_20px_rgba(0,0,0,0.4)] relative w-full lg:w-auto">
+      <div className="fixed left-0 right-0 top-4 flex justify-center px-4 z-[999]" ref={navRef}>
+        <div className="backdrop-blur-xl bg-[var(--background)] border border-white/10 text-sm px-4 lg:px-10 py-4 rounded-full flex items-center justify-between lg:justify-center gap-3 lg:gap-6 shadow-[0_0_20px_rgba(0,0,0,0.45)] relative w-full lg:w-auto">
 
 
           {/* Hamburger button - only visible on mobile */}
@@ -103,7 +100,7 @@ export default function Navbar() {
             {/* Social icons */}
             <div className="flex items-center gap-4">
               <a
-                href="https://wa.me/50686488688"
+                href="https://wa.me/50689088541"
                 target="_blank"
                 rel="noreferrer"
                 className="text-[var(--foreground)]/60 hover:text-blue-400 transition"
@@ -114,7 +111,7 @@ export default function Navbar() {
                 </svg>
               </a>
               <a
-                href="https://instagram.com/jonathan.cordova.r"
+                href="https://instagram.com/puravidacodingcr"
                 target="_blank"
                 rel="noreferrer"
                 className="text-[var(--foreground)]/60 hover:text-blue-400 transition"
@@ -125,7 +122,7 @@ export default function Navbar() {
                 </svg>
               </a>
               <a
-                href="https://github.com/JamesPicado"
+                href="https://github.com/nano1709"
                 target="_blank"
                 rel="noreferrer"
                 className="text-[var(--foreground)]/60 hover:text-blue-400 transition"
