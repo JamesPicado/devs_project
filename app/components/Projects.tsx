@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 
 const PROJECTS = [
@@ -94,7 +95,14 @@ export default function Projects() {
               >
                 <div className="relative overflow-hidden rounded-[28px] border border-[var(--card-border)] bg-[rgba(var(--background-rgb),0.32)] transition duration-500 group-hover:-translate-y-1 group-hover:border-[var(--card-border-hover)]" style={{ boxShadow: "var(--card-shadow)" }}>
                   <div className="relative aspect-[4/3] w-full">
-                    <img src={project.image} alt={project.imageAlt} loading="lazy" className="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
+                    <Image
+                      src={project.image}
+                      alt={project.imageAlt}
+                      fill
+                      sizes="(min-width: 1280px) 33vw, (min-width: 640px) 50vw, 100vw"
+                      priority={index === 0}
+                      className="h-full w-full object-cover transition duration-700 group-hover:scale-110"
+                    />
                     <div className={`absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-70 bg-gradient-to-br ${project.accent}`} />
                   </div>
                   <div className="absolute inset-4 rounded-[20px] border border-[var(--card-border-hover)] opacity-0 transition duration-500 group-hover:opacity-80" />
