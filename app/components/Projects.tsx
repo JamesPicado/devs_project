@@ -37,6 +37,8 @@ const PROJECTS = [
     link: "https://gymexample.vercel.app/#",
     accent: "from-indigo-500/40 via-purple-500/20 to-transparent",
   },
+ 
+  
 ] as const;
 
 const PROJECT_GRID_VARIANTS = {
@@ -78,7 +80,7 @@ export default function Projects() {
 
       <div className="relative max-w-6xl mx-auto mt-16">
         <motion.div
-          className="grid gap-8 sm:grid-cols-2 xl:grid-cols-3"
+          className="grid gap-8 sm:grid-cols-2 xl:justify-center xl:grid-cols-[repeat(auto-fit,minmax(280px,360px))]"
           variants={PROJECT_GRID_VARIANTS}
           initial="hidden"
           whileInView="visible"
@@ -121,7 +123,7 @@ export default function Projects() {
                     ))}
                   </div>
 
-                  <div className="pt-4">
+                  <div className="mt-auto pt-4">
                     {hasLink ? (
                       <a
                         href={project.link}
