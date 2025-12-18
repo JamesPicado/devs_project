@@ -13,10 +13,38 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 
 const ORBIT_GLOWS = [
-  { left: "8%", top: "25%", size: 260, duration: 8, delay: 0, colors: ["rgba(56,189,248,0.4)", "rgba(59,130,246,0.1)"] },
-  { left: "38%", top: "10%", size: 320, duration: 10, delay: 0.4, colors: ["rgba(129,140,248,0.35)", "rgba(56,189,248,0.08)"] },
-  { left: "62%", top: "32%", size: 280, duration: 9, delay: 0.7, colors: ["rgba(14,165,233,0.35)", "rgba(59,130,246,0.08)"] },
-  { left: "80%", top: "18%", size: 240, duration: 11, delay: 1, colors: ["rgba(99,102,241,0.32)", "rgba(59,130,246,0.1)"] },
+  {
+    left: "8%",
+    top: "25%",
+    size: 260,
+    duration: 8,
+    delay: 0,
+    colors: ["rgba(56,189,248,0.4)", "rgba(59,130,246,0.1)"],
+  },
+  {
+    left: "38%",
+    top: "10%",
+    size: 320,
+    duration: 10,
+    delay: 0.4,
+    colors: ["rgba(129,140,248,0.35)", "rgba(56,189,248,0.08)"],
+  },
+  {
+    left: "62%",
+    top: "32%",
+    size: 280,
+    duration: 9,
+    delay: 0.7,
+    colors: ["rgba(14,165,233,0.35)", "rgba(59,130,246,0.08)"],
+  },
+  {
+    left: "80%",
+    top: "18%",
+    size: 240,
+    duration: 11,
+    delay: 1,
+    colors: ["rgba(99,102,241,0.32)", "rgba(59,130,246,0.1)"],
+  },
 ] as const;
 
 export default function HomePage() {
@@ -39,7 +67,10 @@ export default function HomePage() {
   return (
     <div className="relative min-h-screen w-full bg-[var(--background)] text-[var(--foreground)]">
       {siteKey && (
-        <Script src={`https://www.google.com/recaptcha/api.js?render=${siteKey}`} strategy="afterInteractive" />
+        <Script
+          src={`https://www.google.com/recaptcha/api.js?render=${siteKey}`}
+          strategy="afterInteractive"
+        />
       )}
 
       <section className="relative isolate z-[200] min-h-screen w-full overflow-hidden">
@@ -76,11 +107,17 @@ export default function HomePage() {
             className="absolute left-1/2 top-[32%] -translate-x-1/2 rounded-full blur-[120px] mix-blend-screen"
             initial={{ opacity: 0.2, scale: 0.95 }}
             animate={{ opacity: 0.35, scale: 1.05 }}
-            transition={{ duration: 5, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
+            transition={{
+              duration: 5,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "easeInOut",
+            }}
             style={{
               width: 520,
               height: 520,
-              background: "radial-gradient(circle, rgba(255,255,255,0.45) 0%, rgba(14,165,233,0.15) 45%, transparent 75%)",
+              background:
+                "radial-gradient(circle, rgba(255,255,255,0.45) 0%, rgba(14,165,233,0.15) 45%, transparent 75%)",
             }}
           />
 
@@ -89,14 +126,14 @@ export default function HomePage() {
           </div>
         </div>
 
-        <Navbar />
-        <Hero />
+  <Navbar />
+    <Hero />
       </section>
-      <Services />
-      <Projects />
-      {/* <Experience /> */}
-      <Gallery />
-      <Contact />
+        <Services />
+          <Projects />
+        {/* <Experience /> */}
+              <Gallery />
+                 <Contact />
 
       {/* Scroll to Top Button */}
       <AnimatePresence>
@@ -110,15 +147,19 @@ export default function HomePage() {
             className="fixed bottom-8 right-8 z-40 flex items-center justify-center h-12 w-12 rounded-full bg-blue-600/90 hover:bg-blue-600 text-white shadow-lg backdrop-blur-sm transition-colors"
             aria-label="Scroll to top"
           >
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              fill="none" 
-              viewBox="0 0 24 24" 
-              strokeWidth={2.5} 
-              stroke="currentColor" 
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2.5}
+              stroke="currentColor"
               className="w-6 h-6"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M4.5 15.75l7.5-7.5 7.5 7.5"
+              />
             </svg>
           </motion.button>
         )}
