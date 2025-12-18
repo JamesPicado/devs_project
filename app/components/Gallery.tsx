@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { useState } from "react";
 
@@ -69,15 +68,13 @@ export default function Gallery() {
                     aspectRatio: "1/1",
                   }}
                 >
-                  <Image
-                    src={image.src}
-                    alt={image.alt}
-                    fill
-                    loading="lazy"
-                    sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
+                  <img 
+                    src={image.src} 
+                    alt={image.alt} 
                     className={`h-full w-full transition-transform duration-700 group-hover:scale-110 ${
                       idx === 0 ? "object-cover object-bottom" : "object-cover"
                     }`}
+                    loading="lazy" 
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                   <div className="absolute inset-x-0 bottom-0 p-4 translate-y-full transition-transform duration-300 group-hover:translate-y-0">
@@ -108,13 +105,11 @@ export default function Gallery() {
                     aspectRatio: "1/1",
                   }}
                 >
-                  <Image
-                    src={image.src}
-                    alt={image.alt}
-                    fill
-                    loading="lazy"
-                    sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  <img 
+                    src={image.src} 
+                    alt={image.alt} 
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                    loading="lazy" 
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                   <div className="absolute inset-x-0 bottom-0 p-4 translate-y-full transition-transform duration-300 group-hover:translate-y-0">
@@ -159,13 +154,7 @@ export default function Gallery() {
               </button>
 
               <div className="p-6">
-                <Image
-                  src={galleryModal.src}
-                  alt={galleryModal.alt}
-                  width={1200}
-                  height={900}
-                  className="h-auto w-full max-h-[70vh] object-contain"
-                />
+                <img src={galleryModal.src} alt={galleryModal.alt} className="max-h-[70vh] w-auto object-contain" />
               </div>
               <div className="px-6 pb-6 text-center space-y-2">
                 <p className="text-[14px] uppercase tracking-[0.35em] text-white font-semibold">{galleryModal.alt}</p>
