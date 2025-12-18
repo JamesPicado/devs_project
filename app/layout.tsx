@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Devs JNJ",
-  description: "Apps DevOS",
+  title: "Pura Vida Coding",
+  description: "Pura Vida Coding - Tailor-made digital experiences that stand out.",
 };
 
 export default function RootLayout({
