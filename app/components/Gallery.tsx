@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { useState } from "react";
 
 const GALLERY_IMAGES = [
@@ -68,13 +69,14 @@ export default function Gallery() {
                     aspectRatio: "1/1",
                   }}
                 >
-                  <img 
+                  <Image 
                     src={image.src} 
                     alt={image.alt} 
-                    className={`h-full w-full transition-transform duration-700 group-hover:scale-110 ${
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className={`transition-transform duration-700 group-hover:scale-110 ${
                       idx === 0 ? "object-cover object-bottom" : "object-cover"
                     }`}
-                    loading="lazy" 
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                   <div className="absolute inset-x-0 bottom-0 p-4 translate-y-full transition-transform duration-300 group-hover:translate-y-0">
@@ -105,11 +107,12 @@ export default function Gallery() {
                     aspectRatio: "1/1",
                   }}
                 >
-                  <img 
+                  <Image 
                     src={image.src} 
                     alt={image.alt} 
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" 
-                    loading="lazy" 
+                    fill
+                    sizes="(max-width: 640px) 100vw, 50vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-110" 
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                   <div className="absolute inset-x-0 bottom-0 p-4 translate-y-full transition-transform duration-300 group-hover:translate-y-0">
