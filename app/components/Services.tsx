@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 const SERVICES_DATA = [
   {
-    category: "💻 Development",
+    category: "Development",
     items: [
       {
         title: "Custom Web Applications",
@@ -21,7 +21,7 @@ const SERVICES_DATA = [
     ],
   },
   {
-    category: "🎨 Creative & Visual",
+    category: "Creative & Visual",
     items: [
       {
         title: "Photography Services",
@@ -38,7 +38,7 @@ const SERVICES_DATA = [
     ],
   },
   {
-    category: "🤝 Collaboration & Experience",
+    category: "Collaboration & Experience",
     items: [
       {
         title: "Built for Your Users",
