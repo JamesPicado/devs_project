@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
+import { useLanguage } from "../LanguageContext";
 
 const GALLERY_IMAGES = [
   { src: "/img_projects/DSC01634.jpg", alt: "Professional photography" },
@@ -13,6 +14,8 @@ const GALLERY_IMAGES = [
 ] as const;
 
 export default function Gallery() {
+  const { language } = useLanguage();
+  const es = language === "es";
   const [galleryModal, setGalleryModal] = useState<{ src: string; alt: string } | null>(null);
 
   return (
@@ -20,9 +23,9 @@ export default function Gallery() {
       <section id="gallery" className="relative z-10 w-full min-h-screen bg-[var(--background)] text-[var(--foreground)] px-4 sm:px-6 py-24">
         <div className="max-w-7xl mx-auto space-y-12">
           <div className="text-center space-y-4">
-            <h2 className="text-4xl font-extrabold">Gallery</h2>
+            <h2 className="text-4xl font-extrabold">{es ? "Galería" : "Gallery"}</h2>
             <p className="text-sm text-[var(--foreground)]/75 max-w-3xl mx-auto">
-             Professional photography by{" "}
+             {es ? "Fotografía profesional por" : "Professional photography by"}{" "}
              <a 
                href="https://www.pexels.com/@jonathan-cordova-r-2637981/" 
                target="_blank" 
@@ -161,7 +164,7 @@ export default function Gallery() {
               </div>
               <div className="px-6 pb-6 text-center space-y-2">
                 <p className="text-[14px] uppercase tracking-[0.35em] text-white font-semibold">{galleryModal.alt}</p>
-                <p className="text-[11px] text-white/70">Photo by Jonathan Cordova R.</p>
+                <p className="text-[11px] text-white/70">{es ? "Foto por Jonathan Cordova R." : "Photo by Jonathan Cordova R."}</p>
               </div>
             </div>
 

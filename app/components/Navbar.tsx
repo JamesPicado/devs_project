@@ -2,13 +2,14 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
+import { useLanguage } from "../LanguageContext";
 
 const LINKS = [
-  { id: "home", label: "Home" },
-  { id: "services", label: "Services" },
-  { id: "projects", label: "Projects" },
-  { id: "gallery", label: "Gallery" },
-  { id: "contact", label: "Contact" },
+  { id: "home", en: "Home", es: "Inicio" },
+  { id: "services", en: "Services", es: "Servicios" },
+  { id: "projects", en: "Projects", es: "Proyectos" },
+  { id: "gallery", en: "Gallery", es: "Galería" },
+  { id: "contact", en: "Contact", es: "Contacto" },
 ];
 
 const SOCIALS = [
@@ -19,6 +20,7 @@ const SOCIALS = [
 ];
 
 export default function Navbar() {
+  const { language, setLanguage } = useLanguage();
   const [navOpen, setNavOpen] = useState(false);
   const [themeMode, setThemeMode] = useState<"light" | "dark">("dark");
   const [themeReady, setThemeReady] = useState(false);
@@ -63,9 +65,11 @@ export default function Navbar() {
         <nav className="hidden lg:flex items-center gap-6 text-[15px]">
           {LINKS.map((link) => (
             <button key={link.id} onClick={() => scrollToSection(link.id)} className="hover:text-blue-400 transition">
-              {link.label}
+              {link[language]}
             </button>
           ))}
+          <div className="h-5 w-px bg-white/15" />
+          <button onClick={() => setLanguage(language === "en" ? "es" : "en")} className="text-xs font-medium tracking-[0.16em] text-[#168cff]" aria-label="Change language">{language === "en" ? "ES" : "EN"}</button>
           <div className="h-5 w-px bg-white/15" />
           <div className="flex items-center gap-4 text-[var(--foreground)]/65">
             {SOCIALS.map((social) => (
@@ -88,6 +92,7 @@ export default function Navbar() {
         </nav>
 
         <div className="lg:hidden flex items-center gap-3">
+          <button onClick={() => setLanguage(language === "en" ? "es" : "en")} className="text-xs font-medium tracking-[0.12em] text-[#168cff]">{language === "en" ? "ES" : "EN"}</button>
           <button
             onClick={() => setThemeMode((prev) => (prev === "dark" ? "light" : "dark"))}
             className="flex items-center gap-2 text-sm"
@@ -113,12 +118,12 @@ export default function Navbar() {
                   onClick={() => scrollToSection(link.id)}
                   className="w-full text-left text-base font-medium text-[var(--foreground)] py-2 border-b border-white/10 last:border-b-0 hover:text-blue-300 transition"
                 >
-                  {link.label}
+                  {link[language]}
                 </button>
               ))}
 
               <div className="pt-1 border-t border-white/10">
-                <p className="text-xs uppercase tracking-[0.25em] text-[var(--foreground)]/60 mb-3">Connect</p>
+                <p className="text-xs uppercase tracking-[0.25em] text-[var(--foreground)]/60 mb-3">{language === "en" ? "Connect" : "Conectar"}</p>
                 <div className="flex items-center gap-6 text-[var(--foreground)]/70">
                   {SOCIALS.map((social) => (
                     <a key={social.label} href={social.href} target="_blank" rel="noreferrer" aria-label={social.label} className="hover:text-blue-300 transition">

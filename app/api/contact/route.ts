@@ -10,9 +10,9 @@ const transporter = nodemailer.createTransport({
 });
 
 export async function POST(request: Request) {
-  const { name, email, phone, country, message, recaptchaToken } = await request.json();
+  const { name, email, phone, country, service, message, recaptchaToken } = await request.json();
 
-  if (!name || !email || !message) {
+  if (!name || !email || !service || !message) {
     return NextResponse.json({ error: "Invalid data" }, { status: 400 });
   }
 
@@ -35,7 +35,7 @@ export async function POST(request: Request) {
 
     const plainCountry = country ? `Country: ${country}` : "";
     const plainPhone = phone ? `Phone: ${phone}` : "";
-    const plainText = `New message from ${name}\n${plainCountry}\n${plainPhone}\nEmail: ${email}\n\n${message}`;
+    const plainText = `New message from ${name}\nService: ${service}\n${plainCountry}\n${plainPhone}\nEmail: ${email}\n\n${message}`;
 
     const htmlContent = `
       <div style="font-family: 'Segoe UI', Arial, sans-serif; background:#0e0f12; color:#f1f5f9; padding:24px; border-radius:16px; max-width:520px; margin:0 auto; border:1px solid rgba(255,255,255,0.1);">
@@ -49,6 +49,9 @@ export async function POST(request: Request) {
 
           <p style="margin:0 0 6px; font-size:14px; text-transform:uppercase; letter-spacing:0.3em; color:rgba(96,165,250,0.8);">Email</p>
           <p style="margin:0 0 16px; font-size:18px; font-weight:600;">${email}</p>
+
+          <p style="margin:0 0 6px; font-size:14px; text-transform:uppercase; letter-spacing:0.3em; color:rgba(96,165,250,0.8);">Servicio</p>
+          <p style="margin:0 0 16px; font-size:18px; font-weight:600;">${service}</p>
 
           ${country ? `
             <p style="margin:0 0 6px; font-size:14px; text-transform:uppercase; letter-spacing:0.3em; color:rgba(96,165,250,0.8);">País</p>
@@ -69,7 +72,7 @@ export async function POST(request: Request) {
     await transporter.sendMail({
       from: `Portfolio Contact <${process.env.GMAIL_USER}>`,
       to: process.env.RECEIVER_EMAIL ?? process.env.GMAIL_USER,
-      subject: `New message from ${name}`,
+      subject: `${service} request from ${name}`,
       text: plainText,
       html: htmlContent,
     });

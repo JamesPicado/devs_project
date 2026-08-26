@@ -6,11 +6,13 @@ import Script from "next/script";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Services from "./components/Services";
+import ComputerServices from "./components/ComputerServices";
 import Experience from "./components/Experience";
 import Gallery from "./components/Gallery";
 import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import { LanguageProvider } from "./LanguageContext";
 
 const ORBIT_GLOWS = [
   {
@@ -65,7 +67,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="relative min-h-screen w-full bg-[var(--background)] text-[var(--foreground)]">
+    <LanguageProvider><div className="relative min-h-screen w-full bg-[var(--background)] text-[var(--foreground)]">
       {siteKey && (
         <Script
           src={`https://www.google.com/recaptcha/api.js?render=${siteKey}`}
@@ -130,6 +132,7 @@ export default function HomePage() {
     <Hero />
       </section>
         <Services />
+        <ComputerServices />
           <Projects />
         {/* <Experience /> */}
               <Gallery />
@@ -165,6 +168,6 @@ export default function HomePage() {
         )}
       </AnimatePresence>
       <Footer />
-    </div>
+    </div></LanguageProvider>
   );
 }

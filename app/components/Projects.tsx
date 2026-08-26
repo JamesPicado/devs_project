@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useLanguage } from "../LanguageContext";
 
 const PROJECTS = [
   {
@@ -63,6 +64,8 @@ const PROJECT_CARD_VARIANTS = {
 } as const;
 
 export default function Projects() {
+  const { language } = useLanguage();
+  const es = language === "es";
   return (
     <section id="projects" className="relative z-10 w-full bg-[var(--background)] text-[var(--foreground)] px-4 py-24 sm:px-6 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
@@ -72,9 +75,9 @@ export default function Projects() {
       </div>
 
       <div className="relative max-w-5xl mx-auto text-center space-y-4 pt-12">
-        <h2 className="text-4xl font-extrabold">Projects</h2>
+        <h2 className="text-4xl font-extrabold">{es ? "Proyectos" : "Projects"}</h2>
         <p className="text-[var(--foreground)]/70 text-sm leading-relaxed">
-          Every website I build is a completely unique project. I listen to what each client needs and transform those ideas into personalized, functional digital experiences aligned with the essence of their business.
+          {es ? "Cada sitio web es un proyecto único. Escuchamos las necesidades de cada cliente y las convertimos en experiencias digitales personalizadas, funcionales y alineadas con su negocio." : "Every website I build is a completely unique project. I listen to what each client needs and transform those ideas into personalized, functional digital experiences aligned with the essence of their business."}
         </p>
       </div>
 
@@ -130,7 +133,7 @@ export default function Projects() {
                         rel="noreferrer"
                         className="inline-flex items-center gap-2 text-sm font-semibold tracking-wide text-blue-300 transition hover:text-white"
                       >
-                        View Details
+                        {es ? "Ver detalles" : "View Details"}
                         <span aria-hidden="true">↗</span>
                       </a>
                     ) : (

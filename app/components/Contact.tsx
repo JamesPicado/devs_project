@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useLanguage } from "../LanguageContext";
 
 declare global {
   interface Window {
@@ -12,6 +13,12 @@ declare global {
 }
 
 type CountryOption = { code: string; name: string; dial: string; flag: string };
+type RestCountry = {
+  cca2?: string;
+  flag?: string;
+  name?: { common?: string };
+  idd?: { root?: string; suffixes?: string[] };
+};
 
 const DEFAULT_COUNTRIES: readonly CountryOption[] = [
   { code: "CR", name: "Costa Rica", dial: "+506", flag: "🇨🇷" },
@@ -23,8 +30,34 @@ const DEFAULT_COUNTRIES: readonly CountryOption[] = [
 
 const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? "";
 
+const DEVELOPMENT_SERVICES = [
+  "Custom Software Development",
+  "Web Development",
+  "E-commerce Solutions",
+  "Support & Optimization",
+] as const;
+
+const TECHNICAL_SERVICES = [
+  "Diagnostics & Review",
+  "Software & Operating System",
+  "Preventive Maintenance",
+] as const;
+
+const SERVICE_OPTIONS = [...DEVELOPMENT_SERVICES, ...TECHNICAL_SERVICES] as const;
+const SERVICE_LABEL_ES: Record<(typeof SERVICE_OPTIONS)[number], string> = {
+  "Custom Software Development": "Desarrollo de software a medida",
+  "Web Development": "Desarrollo web",
+  "E-commerce Solutions": "Soluciones e-commerce",
+  "Support & Optimization": "Soporte y optimización",
+  "Diagnostics & Review": "Diagnóstico y revisión",
+  "Software & Operating System": "Software y sistema operativo",
+  "Preventive Maintenance": "Mantenimiento preventivo",
+};
+
 export default function Contact() {
-  const [contactForm, setContactForm] = useState({ name: "", email: "", country: "CR", phone: "", message: "" });
+  const { language } = useLanguage();
+  const es = language === "es";
+  const [contactForm, setContactForm] = useState({ name: "", email: "", country: "CR", phone: "", service: "", message: "" });
   const [countryOptions, setCountryOptions] = useState(Array.from(DEFAULT_COUNTRIES));
   const [contactStatus, setContactStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [captchaReady, setCaptchaReady] = useState(!siteKey);
@@ -36,13 +69,24 @@ export default function Contact() {
   };
 
   useEffect(() => {
+    const selectRequestedService = (event: Event) => {
+      const service = (event as CustomEvent<string>).detail;
+      if (SERVICE_OPTIONS.includes(service as (typeof SERVICE_OPTIONS)[number])) {
+        setContactForm((prev) => ({ ...prev, service }));
+      }
+    };
+    window.addEventListener("service-selected", selectRequestedService);
+    return () => window.removeEventListener("service-selected", selectRequestedService);
+  }, []);
+
+  useEffect(() => {
     let isMounted = true;
     const loadCountries = async () => {
       try {
         const res = await fetch("https://restcountries.com/v3.1/all?fields=name,cca2,idd,flag");
         const data = await res.json();
         const mapped: CountryOption[] = data
-          .map((country: any) => {
+          .map((country: RestCountry) => {
             const dialRoot = country?.idd?.root ?? "";
             const suffix = country?.idd?.suffixes?.[0] ?? "";
             const dial = `${dialRoot}${suffix}`;
@@ -126,7 +170,7 @@ export default function Contact() {
       });
       if (!res.ok) throw new Error("Request failed");
       setContactStatus("success");
-      setContactForm({ name: "", email: "", country: "CR", phone: "", message: "" });
+      setContactForm({ name: "", email: "", country: "CR", phone: "", service: "", message: "" });
     } catch (err) {
       console.error(err);
       setContactStatus("error");
@@ -137,10 +181,10 @@ export default function Contact() {
     <section id="contact" className="relative z-10 w-full bg-[var(--background)] text-[var(--foreground)] px-4 sm:px-6 py-24">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-10">
-          <p className="text-xs uppercase tracking-[0.5em] text-[var(--foreground)]/60">Contact</p>
-          <h2 className="text-4xl font-extrabold mt-3">Let's Work Together</h2>
+          <p className="text-xs uppercase tracking-[0.5em] text-[var(--foreground)]/60">{es ? "Contacto" : "Contact"}</p>
+          <h2 className="text-4xl font-extrabold mt-3">{es ? "Trabajemos juntos" : "Let's Work Together"}</h2>
           <p className="text-sm text-[var(--foreground)]/70 mt-3">
-            Fill out the form. I will respond as soon as possible.
+            {es ? "Completa el formulario. Te responderé lo antes posible." : "Fill out the form. I will respond as soon as possible."}
           </p>
         </div>
 
@@ -150,14 +194,14 @@ export default function Contact() {
           style={{ boxShadow: "0 25px 55px rgba(15,15,15,0.12)" }}
         >
           <label className="block text-sm font-semibold uppercase tracking-[0.3em] text-[var(--foreground)]/70">
-            Name
+            {es ? "Nombre" : "Name"}
             <input
               type="text"
               required
               value={contactForm.name}
               onChange={(e) => updateContactForm("name", e.target.value)}
               className="mt-2 w-full rounded-2xl border border-[var(--input-border)] bg-[var(--input-bg)] px-4 py-3 text-base text-[var(--foreground)] placeholder:text-[var(--input-placeholder)] transition focus:outline-none focus:ring-2 focus:ring-[var(--input-focus-ring)] focus:ring-offset-2 focus:ring-offset-[var(--background)]"
-              placeholder="What is your name?"
+              placeholder={es ? "¿Cuál es tu nombre?" : "What is your name?"}
             />
           </label>
 
@@ -174,7 +218,28 @@ export default function Contact() {
           </label>
 
           <label className="block text-sm font-semibold uppercase tracking-[0.3em] text-[var(--foreground)]/70">
-            Phone
+            {es ? "Servicio" : "Service"}
+            <div className="relative mt-2">
+              <select
+                required
+                value={contactForm.service}
+                onChange={(e) => updateContactForm("service", e.target.value)}
+                className="w-full appearance-none rounded-2xl border border-[var(--input-border)] bg-[var(--input-bg)] px-4 py-3 pr-11 text-base font-normal normal-case tracking-normal text-[var(--foreground)] transition focus:outline-none focus:ring-2 focus:ring-[var(--input-focus-ring)] focus:ring-offset-2 focus:ring-offset-[var(--background)]"
+              >
+                <option value="" disabled>{es ? "Selecciona un servicio" : "Select a service"}</option>
+                <optgroup label={es ? "Servicios de desarrollo" : "Development services"}>
+                  {DEVELOPMENT_SERVICES.map((service) => <option key={service} value={service}>{es ? SERVICE_LABEL_ES[service] : service}</option>)}
+                </optgroup>
+                <optgroup label={es ? "Servicios técnicos" : "Technical services"}>
+                  {TECHNICAL_SERVICES.map((service) => <option key={service} value={service}>{es ? SERVICE_LABEL_ES[service] : service}</option>)}
+                </optgroup>
+              </select>
+              <span className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-[var(--input-placeholder)]">▾</span>
+            </div>
+          </label>
+
+          <label className="block text-sm font-semibold uppercase tracking-[0.3em] text-[var(--foreground)]/70">
+            {es ? "Teléfono" : "Phone"}
             <div className="mt-2 flex gap-2">
               <div className="relative w-[120px]">
                 <select
@@ -202,14 +267,14 @@ export default function Contact() {
           </label>
 
           <label className="block text-sm font-semibold uppercase tracking-[0.3em] text-[var(--foreground)]/70">
-            Message
+            {es ? "Mensaje" : "Message"}
             <textarea
               required
               rows={5}
               value={contactForm.message}
               onChange={(e) => updateContactForm("message", e.target.value)}
               className="mt-2 w-full rounded-2xl border border-[var(--input-border)] bg-[var(--input-bg)] px-4 py-3 text-base text-[var(--foreground)] placeholder:text-[var(--input-placeholder)] transition focus:outline-none focus:ring-2 focus:ring-[var(--input-focus-ring)] focus:ring-offset-2 focus:ring-offset-[var(--background)] resize-none"
-              placeholder="Tell me about your project..."
+              placeholder={es ? "Cuéntanos sobre tu proyecto o equipo..." : "Tell me about your project..."}
             />
           </label>
 
@@ -219,11 +284,11 @@ export default function Contact() {
               disabled={contactStatus === "sending" || (Boolean(siteKey) && !captchaReady)}
               className="rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:bg-blue-400"
             >
-              {contactStatus === "sending" ? "Sending..." : "Send"}
+              {contactStatus === "sending" ? (es ? "Enviando..." : "Sending...") : (es ? "Enviar" : "Send")}
             </button>
 
-            {contactStatus === "success" && <p className="text-sm text-emerald-400">Message sent successfully.</p>}
-            {contactStatus === "error" && <p className="text-sm text-red-400">An error occurred. Please try again.</p>}
+            {contactStatus === "success" && <p className="text-sm text-emerald-400">{es ? "Mensaje enviado correctamente." : "Message sent successfully."}</p>}
+            {contactStatus === "error" && <p className="text-sm text-red-400">{es ? "Ocurrió un error. Inténtalo de nuevo." : "An error occurred. Please try again."}</p>}
             {siteKey && !captchaReady && contactStatus !== "error" && (
               <p className="text-sm text-[var(--foreground)]/60">Activating bot protection...</p>
             )}
