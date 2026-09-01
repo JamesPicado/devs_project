@@ -9,7 +9,8 @@ const PROJECTS = [
     title: "Temco Engineered Products, Inc.",
     role: "Truck Manufacturers",
     image: "/img_projects/temcousa.png",
-    imageAlt: "Home page with 3 different themed images. Welder performing high-precision metal fabrication during the manufacturing process at TEMCO.",
+    imageAlt:
+      "Home page with 3 different themed images. Welder performing high-precision metal fabrication during the manufacturing process at TEMCO.",
     description:
       "Corporate website to highlight industrial capabilities, manufacturing processes, quality control, and service catalog, with clear sections and a focus on converting B2B clients.",
     highlights: [
@@ -21,7 +22,7 @@ const PROJECTS = [
     link: "https://temcousa.com",
     accent: "from-blue-500/40 via-cyan-400/20 to-transparent",
   },
-  
+
   {
     title: "Gym Costa Rica",
     role: "Gym Information Website",
@@ -38,8 +39,6 @@ const PROJECTS = [
     link: "https://gymexample.vercel.app/#",
     accent: "from-indigo-500/40 via-purple-500/20 to-transparent",
   },
- 
-  
 ] as const;
 
 const PROJECT_GRID_VARIANTS = {
@@ -67,7 +66,10 @@ export default function Projects() {
   const { language } = useLanguage();
   const es = language === "es";
   return (
-    <section id="projects" className="relative z-10 w-full bg-[var(--background)] text-[var(--foreground)] px-4 py-24 sm:px-6 overflow-hidden">
+    <section
+      id="projects"
+      className="relative z-10 w-full bg-[var(--background)] text-[var(--foreground)] px-4 py-24 sm:px-6 overflow-hidden"
+    >
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-x-0 top-24 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
         <div className="absolute left-10 top-10 h-64 w-64 rounded-full bg-blue-500/10 blur-[140px]" />
@@ -75,9 +77,13 @@ export default function Projects() {
       </div>
 
       <div className="relative max-w-5xl mx-auto text-center space-y-4 pt-12">
-        <h2 className="text-4xl font-extrabold">{es ? "Proyectos" : "Projects"}</h2>
+        <h2 className="text-4xl font-extrabold">
+          {es ? "Proyectos" : "Projects"}
+        </h2>
         <p className="text-[var(--foreground)]/70 text-sm leading-relaxed">
-          {es ? "Cada sitio web es un proyecto único. Escuchamos las necesidades de cada cliente y las convertimos en experiencias digitales personalizadas, funcionales y alineadas con su negocio." : "Every website I build is a completely unique project. I listen to what each client needs and transform those ideas into personalized, functional digital experiences aligned with the essence of their business."}
+          {es
+            ? "Cada sitio web es un proyecto único. Escuchamos las necesidades de cada cliente y las convertimos en experiencias digitales personalizadas, funcionales y alineadas con su negocio."
+            : "Every website I build is a completely unique project. I listen to what each client needs and transform those ideas into personalized, functional digital experiences aligned with the essence of their business."}
         </p>
       </div>
 
@@ -98,7 +104,10 @@ export default function Projects() {
                 className="group flex h-full flex-col gap-6 rounded-[32px] border border-[var(--card-border)] bg-[var(--card-background)] p-6 transition duration-300 backdrop-blur-xl hover:border-[var(--card-border-hover)] hover:bg-[var(--card-background-hover)]"
                 style={{ boxShadow: "var(--card-shadow)" }}
               >
-                <div className="relative overflow-hidden rounded-[28px] border border-[var(--card-border)] bg-[rgba(var(--background-rgb),0.32)] transition duration-500 group-hover:-translate-y-1 group-hover:border-[var(--card-border-hover)]" style={{ boxShadow: "var(--card-shadow)" }}>
+                <div
+                  className="relative overflow-hidden rounded-[28px] border border-[var(--card-border)] bg-[rgba(var(--background-rgb),0.32)] transition duration-500 group-hover:-translate-y-1 group-hover:border-[var(--card-border-hover)]"
+                  style={{ boxShadow: "var(--card-shadow)" }}
+                >
                   <div className="relative aspect-[4/3] w-full">
                     <Image
                       src={project.image}
@@ -107,19 +116,30 @@ export default function Projects() {
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className="object-cover transition duration-700 group-hover:scale-110"
                     />
-                    <div className={`absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-70 bg-gradient-to-br ${project.accent}`} />
+                    <div
+                      className={`absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-70 bg-gradient-to-br ${project.accent}`}
+                    />
                   </div>
                   <div className="absolute inset-4 rounded-[20px] border border-[var(--card-border-hover)] opacity-0 transition duration-500 group-hover:opacity-80" />
                 </div>
 
                 <div className="flex flex-1 flex-col gap-3 px-1">
-                  <p className="text-[11px] uppercase tracking-[0.45em] text-[var(--foreground)]/60">0{index + 1} · {project.role}</p>
-                  <h3 className="text-2xl font-semibold leading-snug">{project.title}</h3>
-                  <p className="text-sm text-[var(--foreground)]/75">{project.description}</p>
+                  <p className="text-[11px] uppercase tracking-[0.45em] text-[var(--foreground)]/60">
+                    0{index + 1} · {project.role}
+                  </p>
+                  <h3 className="text-2xl font-semibold leading-snug">
+                    {project.title}
+                  </h3>
+                  <p className="text-sm text-[var(--foreground)]/75">
+                    {project.description}
+                  </p>
 
                   <div className="flex flex-wrap gap-2 pt-3 text-[10px] uppercase tracking-[0.35em] text-[var(--foreground)]/70">
                     {project.stack.map((tech) => (
-                      <span key={tech} className="rounded-full border border-[var(--chip-border)] bg-[var(--chip-background)] px-3 py-1 text-[var(--chip-text)]">
+                      <span
+                        key={tech}
+                        className="rounded-full border border-[var(--chip-border)] bg-[var(--chip-background)] px-3 py-1 text-[var(--chip-text)]"
+                      >
                         {tech}
                       </span>
                     ))}
@@ -137,7 +157,9 @@ export default function Projects() {
                         <span aria-hidden="true">↗</span>
                       </a>
                     ) : (
-                      <span className="text-sm uppercase tracking-[0.3em] text-[var(--foreground)]/45">Private Project</span>
+                      <span className="text-sm uppercase tracking-[0.3em] text-[var(--foreground)]/45">
+                        Private Project
+                      </span>
                     )}
                   </div>
                 </div>

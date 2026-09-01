@@ -10,7 +10,8 @@ const transporter = nodemailer.createTransport({
 });
 
 export async function POST(request: Request) {
-  const { name, email, phone, country, service, message, recaptchaToken } = await request.json();
+  const { name, email, phone, country, service, message, recaptchaToken } =
+    await request.json();
 
   if (!name || !email || !service || !message) {
     return NextResponse.json({ error: "Invalid data" }, { status: 400 });
@@ -20,16 +21,28 @@ export async function POST(request: Request) {
     const secret = process.env.RECAPTCHA_SECRET_KEY;
     if (secret) {
       if (!recaptchaToken) {
-        return NextResponse.json({ error: "Missing reCAPTCHA token" }, { status: 400 });
+        return NextResponse.json(
+          { error: "Missing reCAPTCHA token" },
+          { status: 400 },
+        );
       }
-      const verifyRes = await fetch("https://www.google.com/recaptcha/api/siteverify", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: `secret=${secret}&response=${recaptchaToken}`,
-      });
+      const verifyRes = await fetch(
+        "https://www.google.com/recaptcha/api/siteverify",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: `secret=${secret}&response=${recaptchaToken}`,
+        },
+      );
       const verifyData = await verifyRes.json();
-      if (!verifyData.success || (typeof verifyData.score === "number" && verifyData.score < 0.5)) {
-        return NextResponse.json({ error: "reCAPTCHA failed" }, { status: 400 });
+      if (
+        !verifyData.success ||
+        (typeof verifyData.score === "number" && verifyData.score < 0.5)
+      ) {
+        return NextResponse.json(
+          { error: "reCAPTCHA failed" },
+          { status: 400 },
+        );
       }
     }
 
@@ -53,15 +66,23 @@ export async function POST(request: Request) {
           <p style="margin:0 0 6px; font-size:14px; text-transform:uppercase; letter-spacing:0.3em; color:rgba(96,165,250,0.8);">Servicio</p>
           <p style="margin:0 0 16px; font-size:18px; font-weight:600;">${service}</p>
 
-          ${country ? `
+          ${
+            country
+              ? `
             <p style="margin:0 0 6px; font-size:14px; text-transform:uppercase; letter-spacing:0.3em; color:rgba(96,165,250,0.8);">País</p>
             <p style="margin:0 0 16px; font-size:18px; font-weight:600;">${country}</p>
-          ` : ""}
+          `
+              : ""
+          }
 
-          ${phone ? `
+          ${
+            phone
+              ? `
             <p style="margin:0 0 6px; font-size:14px; text-transform:uppercase; letter-spacing:0.3em; color:rgba(96,165,250,0.8);">Teléfono</p>
             <p style="margin:0 0 16px; font-size:18px; font-weight:600;">${phone}</p>
-          ` : ""}
+          `
+              : ""
+          }
 
           <p style="margin:0 0 6px; font-size:14px; text-transform:uppercase; letter-spacing:0.3em; color:rgba(96,165,250,0.8);">Mensaje</p>
           <p style="margin:0; font-size:16px; line-height:1.6;">${message.replace(/\n/g, "<br>")}</p>
@@ -80,6 +101,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   } catch (error) {
     console.error("Email error", error);
-    return NextResponse.json({ error: "Could not send message" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Could not send message" },
+      { status: 500 },
+    );
   }
 }

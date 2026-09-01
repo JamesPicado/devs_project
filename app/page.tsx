@@ -6,10 +6,9 @@ import Script from "next/script";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Services from "./components/Services";
+import ProjectProcess from "./components/ProjectProcess";
 import ComputerServices from "./components/ComputerServices";
-import Experience from "./components/Experience";
 import Gallery from "./components/Gallery";
-import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import { LanguageProvider } from "./LanguageContext";
@@ -67,107 +66,109 @@ export default function HomePage() {
   };
 
   return (
-    <LanguageProvider><div className="relative min-h-screen w-full bg-[var(--background)] text-[var(--foreground)]">
-      {siteKey && (
-        <Script
-          src={`https://www.google.com/recaptcha/api.js?render=${siteKey}`}
-          strategy="afterInteractive"
-        />
-      )}
+    <LanguageProvider>
+      <div className="relative min-h-screen w-full bg-[var(--background)] text-[var(--foreground)]">
+        {siteKey && (
+          <Script
+            src={`https://www.google.com/recaptcha/api.js?render=${siteKey}`}
+            strategy="afterInteractive"
+          />
+        )}
 
-      <section className="relative isolate z-[200] min-h-screen w-full overflow-hidden">
-        {/* Subtle dot background */}
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle,var(--dot-color)_1.4px,transparent_1.4px)] bg-[length:14px_14px] opacity-45" />
+        <section className="relative isolate z-[200] min-h-screen w-full overflow-hidden">
+          {/* Subtle dot background */}
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle,var(--dot-color)_1.4px,transparent_1.4px)] bg-[length:14px_14px] opacity-45" />
 
-        {/* Vertical animated lines */}
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          {ORBIT_GLOWS.map((glow) => (
+          {/* Vertical animated lines */}
+          <div className="pointer-events-none absolute inset-0 overflow-hidden">
+            {ORBIT_GLOWS.map((glow) => (
+              <motion.div
+                key={`${glow.left}-${glow.top}`}
+                className="absolute rounded-[999px] blur-3xl mix-blend-screen"
+                initial={{ scale: 0.9, y: "-12%" }}
+                animate={{ scale: 1.2, y: "14%" }}
+                transition={{
+                  duration: glow.duration,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                  ease: "easeInOut",
+                  delay: glow.delay,
+                }}
+                style={{
+                  left: glow.left,
+                  top: glow.top,
+                  width: glow.size,
+                  height: glow.size,
+                  background: `radial-gradient(circle, ${glow.colors[0]} 0%, ${glow.colors[1]} 60%, transparent 100%)`,
+                  boxShadow: "0 0 40px rgba(14,165,233,0.15)",
+                }}
+              />
+            ))}
+
             <motion.div
-              key={`${glow.left}-${glow.top}`}
-              className="absolute rounded-[999px] blur-3xl mix-blend-screen"
-              initial={{ scale: 0.9, y: "-12%" }}
-              animate={{ scale: 1.2, y: "14%" }}
+              className="absolute left-1/2 top-[32%] -translate-x-1/2 rounded-full blur-[120px] mix-blend-screen"
+              initial={{ opacity: 0.2, scale: 0.95 }}
+              animate={{ opacity: 0.35, scale: 1.05 }}
               transition={{
-                duration: glow.duration,
+                duration: 5,
                 repeat: Infinity,
                 repeatType: "reverse",
                 ease: "easeInOut",
-                delay: glow.delay,
               }}
               style={{
-                left: glow.left,
-                top: glow.top,
-                width: glow.size,
-                height: glow.size,
-                background: `radial-gradient(circle, ${glow.colors[0]} 0%, ${glow.colors[1]} 60%, transparent 100%)`,
-                boxShadow: "0 0 40px rgba(14,165,233,0.15)",
+                width: 520,
+                height: 520,
+                background:
+                  "radial-gradient(circle, rgba(255,255,255,0.45) 0%, rgba(14,165,233,0.15) 45%, transparent 75%)",
               }}
             />
-          ))}
 
-          <motion.div
-            className="absolute left-1/2 top-[32%] -translate-x-1/2 rounded-full blur-[120px] mix-blend-screen"
-            initial={{ opacity: 0.2, scale: 0.95 }}
-            animate={{ opacity: 0.35, scale: 1.05 }}
-            transition={{
-              duration: 5,
-              repeat: Infinity,
-              repeatType: "reverse",
-              ease: "easeInOut",
-            }}
-            style={{
-              width: 520,
-              height: 520,
-              background:
-                "radial-gradient(circle, rgba(255,255,255,0.45) 0%, rgba(14,165,233,0.15) 45%, transparent 75%)",
-            }}
-          />
-
-          <div className="absolute inset-0 rotate-[25deg] opacity-20">
-            <div className="w-full h-full bg-[radial-gradient(circle,rgba(255,255,255,0.08)_1px,transparent_1px)] bg-[length:120px_120px]" />
+            <div className="absolute inset-0 rotate-[25deg] opacity-20">
+              <div className="w-full h-full bg-[radial-gradient(circle,rgba(255,255,255,0.08)_1px,transparent_1px)] bg-[length:120px_120px]" />
+            </div>
           </div>
-        </div>
 
-  <Navbar />
-    <Hero />
-      </section>
+          <Navbar />
+          <Hero />
+        </section>
         <Services />
+        <ProjectProcess />
         <ComputerServices />
-          <Projects />
         {/* <Experience /> */}
-              <Gallery />
-                 <Contact />
+        <Gallery />
+        <Contact />
 
-      {/* Scroll to Top Button */}
-      <AnimatePresence>
-        {showScrollTop && (
-          <motion.button
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            transition={{ duration: 0.2 }}
-            onClick={scrollToTop}
-            className="fixed bottom-8 right-8 z-40 flex items-center justify-center h-12 w-12 rounded-full bg-blue-600/90 hover:bg-blue-600 text-white shadow-lg backdrop-blur-sm transition-colors"
-            aria-label="Scroll to top"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={2.5}
-              stroke="currentColor"
-              className="w-6 h-6"
+        {/* Scroll to Top Button */}
+        <AnimatePresence>
+          {showScrollTop && (
+            <motion.button
+              initial={{ opacity: 0, scale: 0.8, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.8, y: 20 }}
+              transition={{ duration: 0.2 }}
+              onClick={scrollToTop}
+              className="fixed bottom-8 right-8 z-40 flex items-center justify-center h-12 w-12 rounded-full bg-blue-600/90 hover:bg-blue-600 text-white shadow-lg backdrop-blur-sm transition-colors"
+              aria-label="Scroll to top"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4.5 15.75l7.5-7.5 7.5 7.5"
-              />
-            </svg>
-          </motion.button>
-        )}
-      </AnimatePresence>
-      <Footer />
-    </div></LanguageProvider>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2.5}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4.5 15.75l7.5-7.5 7.5 7.5"
+                />
+              </svg>
+            </motion.button>
+          )}
+        </AnimatePresence>
+        <Footer />
+      </div>
+    </LanguageProvider>
   );
 }

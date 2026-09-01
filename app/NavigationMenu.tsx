@@ -42,22 +42,40 @@ export default function NavigationMenu() {
                        border border-white/10 backdrop-blur-xl rounded-xl 
                        shadow-xl py-3 px-4 flex flex-col w-40 z-50"
           >
-            <button className="py-1.5 text-sm hover:text-blue-400" onClick={() => scrollToSection("home")}>
+            <button
+              className="py-1.5 text-sm hover:text-blue-400"
+              onClick={() => scrollToSection("home")}
+            >
               Home
             </button>
-            <button className="py-1.5 text-sm hover:text-blue-400" onClick={() => scrollToSection("services")}>
+            <button
+              className="py-1.5 text-sm hover:text-blue-400"
+              onClick={() => scrollToSection("services")}
+            >
               Services
             </button>
-            <button className="py-1.5 text-sm hover:text-blue-400" onClick={() => scrollToSection("experience")}>
+            <button
+              className="py-1.5 text-sm hover:text-blue-400"
+              onClick={() => scrollToSection("experience")}
+            >
               Experience
             </button>
-            <button className="py-1.5 text-sm hover:text-blue-400" onClick={() => scrollToSection("skills")}>
+            <button
+              className="py-1.5 text-sm hover:text-blue-400"
+              onClick={() => scrollToSection("skills")}
+            >
               Skills
             </button>
-            <button className="py-1.5 text-sm hover:text-blue-400" onClick={() => scrollToSection("projects")}>
+            <button
+              className="py-1.5 text-sm hover:text-blue-400"
+              onClick={() => scrollToSection("projects")}
+            >
               Projects
             </button>
-            <button className="py-1.5 text-sm hover:text-blue-400" onClick={() => scrollToSection("contact")}>
+            <button
+              className="py-1.5 text-sm hover:text-blue-400"
+              onClick={() => scrollToSection("contact")}
+            >
               Contact
             </button>
           </motion.div>

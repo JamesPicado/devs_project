@@ -66,7 +66,9 @@ export default function Experience() {
 
       <div className="relative max-w-6xl mx-auto">
         <div className="mb-20 text-center">
-          <p className="text-xs uppercase tracking-[0.5em] text-[var(--foreground)]/60">Services & Experience</p>
+          <p className="text-xs uppercase tracking-[0.5em] text-[var(--foreground)]/60">
+            Services & Experience
+          </p>
           <div className="mt-3 flex flex-col items-center justify-center text-4xl font-extrabold md:text-5xl tracking-[0.2em]">
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
@@ -78,7 +80,10 @@ export default function Experience() {
               Experience
             </motion.h2>
             <p className="mt-5 text-lg leading-relaxed text-[var(--foreground)]/90 tracking-[0.02em] max-w-3xl mx-auto font-normal normal-case">
-              Designing and developing digital solutions tailored to any need, from interfaces and websites to applications and enterprise systems, including visual content, optimization, and continuous support.
+              Designing and developing digital solutions tailored to any need,
+              from interfaces and websites to applications and enterprise
+              systems, including visual content, optimization, and continuous
+              support.
             </p>
           </div>
         </div>
@@ -94,7 +99,9 @@ export default function Experience() {
               className="group relative overflow-hidden rounded-[28px] border border-white/10 bg-[rgba(var(--background-rgb),0.78)] p-6 md:p-8 shadow-[0_25px_80px_rgba(0,0,0,0.35)]"
             >
               <div className="absolute inset-0 opacity-50 group-hover:opacity-80 transition duration-300">
-                <div className={`absolute inset-[1px] rounded-[26px] bg-gradient-to-br ${exp.accent} blur-3xl`} />
+                <div
+                  className={`absolute inset-[1px] rounded-[26px] bg-gradient-to-br ${exp.accent} blur-3xl`}
+                />
                 <div className="absolute inset-[1px] rounded-[26px] border border-white/10" />
               </div>
 
@@ -106,15 +113,23 @@ export default function Experience() {
               <div className="relative z-10 mt-5 flex items-start gap-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 text-2xl overflow-hidden">
                   {typeof exp.icon === "string" && exp.icon.endsWith(".png") ? (
-                    <img src={exp.icon} alt={`${exp.title} icon`} className="h-10 w-10 object-contain" />
+                    <img
+                      src={exp.icon}
+                      alt={`${exp.title} icon`}
+                      className="h-10 w-10 object-contain"
+                    />
                   ) : (
                     exp.icon || "∎"
                   )}
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold leading-snug text-[var(--foreground)]">{exp.title}</h3>
+                  <h3 className="text-xl font-semibold leading-snug text-[var(--foreground)]">
+                    {exp.title}
+                  </h3>
                   {exp.subtitle ? (
-                    <p className="text-[12px] uppercase tracking-[0.25em] text-[var(--foreground)]/55 mt-2">{exp.subtitle}</p>
+                    <p className="text-[12px] uppercase tracking-[0.25em] text-[var(--foreground)]/55 mt-2">
+                      {exp.subtitle}
+                    </p>
                   ) : null}
                 </div>
               </div>

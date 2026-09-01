@@ -44,7 +44,7 @@ export default function TypingTitle() {
         parts.push(
           <span key={segment.text} className={segment.className}>
             {slice}
-          </span>
+          </span>,
         );
         remaining = remaining.slice(segment.text.length);
       }

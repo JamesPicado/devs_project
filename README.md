@@ -21,27 +21,31 @@ Professional developer portfolio built with Next.js 16, React 19, TypeScript, an
 ## 🛠️ Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/JamesPicado/devs_project.git
    cd devs_project
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Configure environment variables**
    Create a `.env.local` file based on `.env.local.example`:
+
    ```bash
    cp .env.local.example .env.local
    ```
-   
+
    Then add your credentials:
    - **PEXELS_API_KEY**: Get your free API key from [Pexels API](https://www.pexels.com/api/)
    - **EMAIL_USER** & **EMAIL_PASSWORD**: For the contact form (optional)
 
 4. **Start the development server**
+
    ```bash
    npm run dev
    ```
